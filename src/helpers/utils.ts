@@ -1,6 +1,6 @@
 import { Vec2D } from "../@types";
 
-const cloneCanvas = (canvas: HTMLCanvasElement) => {
+export const cloneCanvas = (canvas: HTMLCanvasElement) => {
 
    const clone = document.createElement('canvas');
    const cloneContext = clone.getContext('2d');

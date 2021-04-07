@@ -64,7 +64,12 @@ export class PerlinParticles {
    }
 
 
-   initFormation(imageData: ImageData) {
+   initFormation(imageData: ImageData | undefined) {
+
+      if (!imageData) {
+         console.warn('Particle text could not get into formation because of undefined image data');
+         return;
+      }
 
       const data = imageData.data;
 

@@ -1,6 +1,7 @@
 import { PerlinParticles } from './PerlinParticles';
 import { Vec2D } from '../@types';
-import { createFittingCanvas, createReferenceCanvas, makeImageData } from '../helpers/utils';
+import { createFittingCanvas, makeImageData, cloneCanvas } from '../helpers/utils';
+import webfontloader from 'webfontloader';
 
 export class PerlinText {
 
@@ -12,10 +13,11 @@ export class PerlinText {
    PerlinParticles: PerlinParticles;
    canvas: HTMLCanvasElement;
    context: CanvasRenderingContext2D;
-   imageData: ImageData;
+   imageData: ImageData | undefined;
    referenceCanvas: HTMLCanvasElement;
+   defaultFont: string = 'sans-serif';
 
-   constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string = 'cursive', offset: Vec2D) {
+   constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string, offset: Vec2D) {
 
       if (!container) throw new Error('PerlinText: Cannot initialise without a valid container');
 
@@ -25,10 +27,42 @@ export class PerlinText {
       this.offset = offset;
       this.container = container;
       [this.canvas, this.context] = createFittingCanvas(container);
-      this.referenceCanvas = createReferenceCanvas(this.canvas, fontSize, fontFamily);
-      this.imageData = makeImageData(this.referenceCanvas, text, offset);
+      this.referenceCanvas = cloneCanvas(this.canvas);
+      this.imageData = undefined;
       this.PerlinParticles = new PerlinParticles(this.canvas.width, this.canvas.height);
 
+      webfontloader.load({
+
+         google: {
+            families: [fontFamily]
+         },
+
+         fontactive: (loadedFont) => this.initialiseParticleText(loadedFont),
+
+         inactive: () => this.initialiseParticleText(this.defaultFont)
+
+      });
+
+   }
+
+   setFont(font: string) {
+
+      this.fontFamily = font;
+
+      const referenceContext = this.referenceCanvas.getContext('2d');
+
+      if (!referenceContext) throw new Error(`2d context not supported );`);
+
+      referenceContext.font = `${this.fontSize}px ${this.fontFamily}`;
+      referenceContext.textAlign = "left";
+      referenceContext.textBaseline = "top";
+
+   }
+
+   initialiseParticleText(font: string) {
+      this.setFont(font);
+      this.imageData = makeImageData(this.referenceCanvas, this.text, this.offset);
+      this.PerlinParticles.initFormation(this.imageData);
    }
 
    materialiseText() { this.PerlinParticles.initFormation(this.imageData); }
