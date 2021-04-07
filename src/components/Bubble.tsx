@@ -10,6 +10,7 @@ const TextContainer = styled.div`
    z-index: 1;
    font-size: 2rem;
    white-space:nowrap;
+   font-family: 'Oswald', serif;
 
    svg{
       width: 40px;

@@ -22,9 +22,9 @@ export class PerlinParticles {
    RAINBOW = false;
 
    //build a home for our particles <3
-   particleDensity = 4;
+   particleDensity = 6;
    particleFields = 6; // number of properties used to identify each particle, 4 regarding it's location and speed and two regarding any target it might be moving towards
-   particlesNumber = 8000;
+   particlesNumber = 11000;
    particleArrayTotalSize = this.particlesNumber * this.particleFields;
    particles = new Float32Array(this.particleArrayTotalSize); //takes particle array total size on initialisation
 

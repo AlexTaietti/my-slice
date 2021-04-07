@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import { Slice } from './Slice';
 import { createGlobalStyle } from 'styled-components';
 
-import './style/global-fonts.css';
-
 const GlobalStyle = createGlobalStyle`
 
    *, *::before, *::after{
@@ -38,10 +36,14 @@ const GlobalStyle = createGlobalStyle`
 
 `;
 
-ReactDOM.render(
-   <React.StrictMode>
-      <GlobalStyle />
-      <Slice />
-   </React.StrictMode>,
-   document.getElementById('slice')
-);
+(document as any).fonts.ready.then(() => {
+
+   ReactDOM.render(
+      <React.StrictMode>
+         <GlobalStyle />
+         <Slice />
+      </React.StrictMode>,
+      document.getElementById('slice')
+   );
+
+});
