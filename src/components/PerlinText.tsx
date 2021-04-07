@@ -10,6 +10,8 @@ const CanvasContainer = styled.div`
    width: 100%;
    height: 100%;
 
+   canvas{ font-family: 'Pacifico', sans-serif; }
+
 `;
 
 export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, fontFamily, offset }) => {
