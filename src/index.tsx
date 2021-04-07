@@ -36,14 +36,10 @@ const GlobalStyle = createGlobalStyle`
 
 `;
 
-(document as any).fonts.ready.then(() => {
-
-   ReactDOM.render(
-      <React.StrictMode>
-         <GlobalStyle />
-         <Slice />
-      </React.StrictMode>,
-      document.getElementById('slice')
-   );
-
-});
+ReactDOM.render(
+   <React.StrictMode>
+      <GlobalStyle />
+      <Slice />
+   </React.StrictMode>,
+   document.getElementById('slice')
+);

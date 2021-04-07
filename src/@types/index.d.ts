@@ -1,6 +1,5 @@
 export type PerlinTextProps = {
    fontSize: number;
-   fontFamily: string;
    text: string;
    offset: {
       x: number,

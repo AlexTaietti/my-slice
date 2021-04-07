@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
 
    return (
       <Hero>
-         <ParticleText text={"Hellooooo!"} fontSize={180} fontFamily={'Pacifico'} offset={{ x: 15, y: 20 }} />
+         <ParticleText text={"Hellooooo!"} fontSize={180} offset={{ x: 15, y: 20 }} />
          <Me />
       </Hero>
    );

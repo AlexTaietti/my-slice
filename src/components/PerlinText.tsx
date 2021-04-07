@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { PerlinTextProps } from '../@types';
 import { PerlinText } from '../classes/PerlinText';
+import webfontloader from 'webfontloader';
 
 const CanvasContainer = styled.div`
 
@@ -12,7 +13,7 @@ const CanvasContainer = styled.div`
 
 `;
 
-export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, fontFamily, offset }) => {
+export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, offset }) => {
 
    const canvasContainer = useRef<HTMLDivElement>(null);
 
@@ -22,11 +23,25 @@ export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, fontFa
 
    useEffect(() => {
 
-      particleText.current = new PerlinText(canvasContainer.current, text, fontSize, fontFamily, offset);
+      const initialiseParticles = (loadedFont: string) => {
 
-      particleText.current.materialiseText();
+         particleText.current = new PerlinText(canvasContainer.current, text, fontSize, loadedFont, offset);
 
-      particleText.current.animate();
+         particleText.current.materialiseText();
+
+         particleText.current.animate();
+
+      };
+
+      webfontloader.load({
+
+         google: {
+            families: ['Pacifico']
+         },
+
+         fontactive: (loadedFont) => initialiseParticles(loadedFont)
+
+      });
 
       window.addEventListener('resize', handleResize);
 

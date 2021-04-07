@@ -15,7 +15,7 @@ export class PerlinText {
    imageData: ImageData;
    referenceCanvas: HTMLCanvasElement;
 
-   constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string, offset: Vec2D) {
+   constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string = 'cursive', offset: Vec2D) {
 
       if (!container) throw new Error('PerlinText: Cannot initialise without a valid container');
 
