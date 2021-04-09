@@ -3,15 +3,6 @@ import styled from 'styled-components';
 import { PerlinTextProps } from '../@types';
 import { PerlinText } from '../classes/PerlinText';
 
-const CanvasContainer = styled.div`
-
-   position: relative;
-   display: block;
-   width: 100%;
-   height: 100%;
-
-`;
-
 export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, offset }) => {
 
    const canvasContainer = useRef<HTMLDivElement>(null);
@@ -35,3 +26,12 @@ export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, offset
    return <CanvasContainer ref={canvasContainer} />;
 
 };
+
+const CanvasContainer = styled.div`
+
+   position: relative;
+   display: block;
+   width: 100%;
+   height: 100vh;
+
+`;

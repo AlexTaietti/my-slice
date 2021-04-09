@@ -71,23 +71,25 @@ export class PerlinText {
 
    resize() {
 
-      this.disperseParticles();
-
       const pixelRatio = window.devicePixelRatio;
 
-      const containerWidth = this.container.clientWidth;
-      const containerHeight = this.container.clientHeight;
+      const newWidth = pixelRatio * this.container.clientWidth;
+      const newHeight = pixelRatio * this.container.clientHeight;
 
-      this.context.canvas.width = containerWidth * pixelRatio;
-      this.context.canvas.height = containerHeight * pixelRatio;
+      if (newWidth === this.context.canvas.width && newHeight === this.context.canvas.height) return;
 
-      this.canvas.style.width = `${containerWidth + "px"}`;
-      this.canvas.style.height = `${containerHeight + "px"}`;
+      this.disperseParticles();
 
-      this.referenceCanvas.width = this.canvas.width;
-      this.referenceCanvas.height = this.canvas.height;
+      this.context.canvas.width = newWidth * pixelRatio;
+      this.context.canvas.height = newHeight * pixelRatio;
+
+      this.canvas.style.width = `${newWidth + "px"}`;
+      this.canvas.style.height = `${newHeight + "px"}`;
 
       const referenceContext = this.referenceCanvas.getContext('2d') as CanvasRenderingContext2D;
+
+      referenceContext.canvas.width = this.canvas.width;
+      referenceContext.canvas.height = this.canvas.height;
 
       referenceContext.font = `${this.fontSize}px ${this.fontFamily}`;
       referenceContext.textAlign = "left";
@@ -95,7 +97,7 @@ export class PerlinText {
 
       this.imageData = makeImageData(this.referenceCanvas, this.text, this.offset);
 
-      this.PerlinParticles.updateBounds(containerWidth, containerHeight);
+      this.PerlinParticles.updateBounds(this.context.canvas.width, this.context.canvas.height);
 
       this.materialiseText();
 
