@@ -16,22 +16,26 @@ const GlobalStyle = createGlobalStyle`
    html, body{
       display: block;
       margin: 0;
-      height: 100%;
       width: 100%;
-      min-height: 100%;
-      min-width: 100%;
    }
 
    canvas{ display: block; }
 
+   button {
+      outline: none;
+      border: none;
+      cursor: pointer;
+   }
+
+   a{
+      text-decoration: none;
+      color: inherit;
+   }
+
    #slice{
       display: block;
-      margin: 0;
       position: relative;
-      height: 100%;
       width: 100%;
-      min-height: 100%;
-      min-width: 100%;
    }
 
 `;
