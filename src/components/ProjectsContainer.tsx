@@ -6,7 +6,7 @@ import { Taietti } from './Taietti';
 export const ProjectsContainer: React.FC = () => {
 
    return (
-      <ProjectsWrapper>
+      <ProjectsWrapper id='projects'>
          <Spoofify />
          <Pokedex />
          <Taietti />
@@ -22,5 +22,11 @@ const ProjectsWrapper = styled.main`
    width: 100%;
 
    section:nth-child(odd){ flex-direction: row-reverse; }
+
+   @media screen and (max-width: 1200px){
+      
+      section:nth-child(odd){ flex-direction: column; }
+   
+   }
 
 `;

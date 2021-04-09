@@ -4,11 +4,22 @@ import styled, { keyframes } from 'styled-components';
 
 export const Header: React.FC = () => {
 
+   const scrollToFirstProject = () => {
+
+      const firstProjectOffset = (document.getElementById('projects') as HTMLDivElement).getBoundingClientRect().top + window.scrollY;
+
+      window.scrollTo({
+         top: firstProjectOffset,
+         behavior: 'smooth'
+      });
+
+   };
+
    return (
       <Hero>
-         <ParticleText text={"Hellooooo!"} fontSize={190} offset={{ x: 17, y: 25 }} />
+         <ParticleText text={"Hellooooo!"} fontSize={180} offset={{ x: 17, y: 25 }} />
          <Me />
-         <MoreButton>Some things I made</MoreButton>
+         <MoreButton onClick={scrollToFirstProject}>Things I made</MoreButton>
       </Hero>
    );
 
@@ -40,7 +51,7 @@ const MoreButton = styled.p`
    left: 15%;
    bottom: 20%;
    cursor: pointer;
-   color: white; 
+   color: white;
    font-family: 'Oswald', sans-serif;
    font-size: 2.3rem;
 
@@ -48,7 +59,7 @@ const MoreButton = styled.p`
       content: '👇';
       position: absolute;
       left: 50%;
-      top: 120%;
+      top: 100%;
       transform: translateX(-50%);
       font-size: 3rem;
       animation-name: ${pulse};

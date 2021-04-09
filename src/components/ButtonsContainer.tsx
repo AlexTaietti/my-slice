@@ -36,4 +36,6 @@ const Container = styled.div`
 
    }
 
+   @media screen and (max-width: 1200px){ justify-content: center; }
+
 `;

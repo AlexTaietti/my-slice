@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import showcase from '../assets/pokedex_showcase.png';
+import showcase from '../assets/pokemon_showcase.png';
 import pikachu from '../assets/surprised_pika.png';
 import { ProjectContainer } from './ProjectContainer';
 import { Showcase } from './Showcase';

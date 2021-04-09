@@ -1,4 +1,4 @@
-import showcase from '../assets/spoofify_showcase.png';
+import showcase from '../assets/player_showcase.png';
 import { ProjectContainer } from './ProjectContainer';
 import { Showcase } from './Showcase';
 import { Description } from './ProjectDescription';
