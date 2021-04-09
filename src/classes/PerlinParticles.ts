@@ -73,13 +73,12 @@ export class PerlinParticles {
 
       const data = imageData.data;
 
-      for (let i = -1, filter = 0, particleArrayPointer = ~~(random() * this.particlesNumber), pixelIndex = undefined; i < data.length; i += 4) {
-         if (data[i] > 0 && !(filter % this.particleDensity)) {
+      for (let i = -1, particleArrayPointer = ~~(random() * this.particlesNumber), pixelIndex = undefined; i < data.length; i += 4) {
+         if (data[i] > 0 && Math.random() > 0.854) {
             pixelIndex = (i - 3) / 4;
             this.particles[this.particleFields * (particleArrayPointer % this.particlesNumber) + 4] = pixelIndex % imageData.width;
             this.particles[this.particleFields * ((particleArrayPointer++) % this.particlesNumber) + 5] = pixelIndex / imageData.width;
          }
-         filter++;
       }
 
       this.inFormation = true;
