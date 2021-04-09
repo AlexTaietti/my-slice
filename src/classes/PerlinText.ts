@@ -29,7 +29,7 @@ export class PerlinText {
       [this.canvas, this.context] = createFittingCanvas(container);
       this.referenceCanvas = cloneCanvas(this.canvas);
       this.imageData = undefined;
-      this.PerlinParticles = new PerlinParticles(this.canvas.width, this.canvas.height);
+      this.PerlinParticles = new PerlinParticles(this.context.canvas.width, this.context.canvas.height);
 
       webfontloader.load({
 
@@ -80,16 +80,16 @@ export class PerlinText {
 
       this.disperseParticles();
 
-      this.context.canvas.width = newWidth * pixelRatio;
-      this.context.canvas.height = newHeight * pixelRatio;
+      this.context.canvas.width = newWidth;
+      this.context.canvas.height = newHeight;
 
-      this.canvas.style.width = `${newWidth + "px"}`;
-      this.canvas.style.height = `${newHeight + "px"}`;
+      this.canvas.style.width = `${this.container.clientWidth + "px"}`;
+      this.canvas.style.height = `${this.container.clientHeight + "px"}`;
 
       const referenceContext = this.referenceCanvas.getContext('2d') as CanvasRenderingContext2D;
 
-      referenceContext.canvas.width = this.canvas.width;
-      referenceContext.canvas.height = this.canvas.height;
+      referenceContext.canvas.width = this.context.canvas.width;
+      referenceContext.canvas.height = this.context.canvas.height;
 
       referenceContext.font = `${this.fontSize}px ${this.fontFamily}`;
       referenceContext.textAlign = "left";
