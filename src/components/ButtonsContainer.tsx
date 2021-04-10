@@ -40,7 +40,7 @@ const Container = styled.div`
 
    @media screen and (max-width: 1024px){
       
-      button{ font-size: 1.8rem; }
+      button{ font-size: 2rem; }
    
    }
 

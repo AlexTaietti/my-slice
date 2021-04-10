@@ -63,4 +63,17 @@ const DescriptionContainer = styled.div`
 
    }
 
+   @media screen and (max-width: 1024px){
+
+      max-width: 70%;
+
+      h1{
+         font-size: 4.8rem;
+         margin-bottom: 5px;
+      }
+
+      p{ font-size: 3rem; }
+
+   }
+
 `;

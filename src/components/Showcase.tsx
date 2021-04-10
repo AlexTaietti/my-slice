@@ -18,4 +18,6 @@ const ShowcaseContainer = styled.div`
 
    @media screen and (max-width: 1200px) { max-width: 70%; }
 
+   @media screen and (max-width: 1024px) { width: 80%; }
+
 `;

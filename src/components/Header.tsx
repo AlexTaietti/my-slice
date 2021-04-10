@@ -48,7 +48,7 @@ const pulse = keyframes`
 
    0%{ transform: translateX(-50%) translateY(0); }
 
-   15%{ transform: translateX(-50%) translateY(13%); }
+   15%{ transform: translateX(-50%) translateY(6px); }
 
    30%{ transform: translateX(-50%) translateY(0); }
 
@@ -61,15 +61,16 @@ const Hero = styled.header`
    height: 100%;
    position: relative;
    overflow: hidden;
+   z-index: 0;
+   background: #030303;
 
    @media screen and (max-width: 1024px) {
 
-      background: #030303;
       display: flex;
       justify-content: space-evenly;
       flex-direction: column;
       align-items: center;
-      padding: 0 0 10%;
+      padding: 0 0 5%;
 
       h1{
          font-family: 'Pacifico', sans-serif;
@@ -104,10 +105,19 @@ const MoreButton = styled.p`
    }
 
    @media screen and (max-width: 1024px) {
+      
       font-size: 4rem;
       position: relative;
       left: 0;
       bottom: 0;
+
+      &::after{
+         position: relative;
+         margin-left: 10px;
+         left: 0;
+         top: 0;
+      }
+
    }
 
 `;

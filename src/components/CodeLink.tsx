@@ -21,7 +21,7 @@ const CodeButton = styled.button`
 
       height: 15px;
       margin-right: 10px;
-      display: inline-block;
+      display: inline-flex;
 
       svg{
          height: 100%;
