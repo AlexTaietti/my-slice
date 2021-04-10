@@ -95,6 +95,7 @@ const MeContainer = styled.div`
 
       width: 250px;
       height: 250px;
+      margin-bottom: 100px;
 
       .letter{
 

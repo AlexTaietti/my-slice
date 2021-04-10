@@ -69,6 +69,7 @@ const Hero = styled.header`
    overflow: hidden;
    z-index: 0;
    background: #030303;
+   min-height: 600px;
 
    @media screen and (max-width: 1024px){
 
