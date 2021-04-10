@@ -27,6 +27,14 @@ const BubbleContainer = styled.p`
 
    @media screen and (max-width: 1024px) { font-size: 3rem; }
 
+   @media screen and (max-width: 1024px) and (max-height: 800px) {
+
+      right: 112%;
+      top: 80%;
+      font-size: 2rem;
+
+   }
+
 `;
 
 const ArrowContainer = styled.span`
@@ -49,6 +57,15 @@ const ArrowContainer = styled.span`
          height: 40px;
       }
    
+   }
+
+   @media screen and (max-width: 1024px) and (max-height: 800px) {
+
+      svg{
+         width: 40px;
+         height: 30px;
+      }
+
    }
 
 `;

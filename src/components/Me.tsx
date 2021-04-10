@@ -80,12 +80,10 @@ const MeContainer = styled.div`
       min-height: 450px;
       bottom: 0;
       right: 0;
+      font-size: 4rem;
       pointer-events: none;
 
       .letter{
-
-         font-size: 5rem;
-         transition-duration: .8s;
 
          &:nth-of-type(1) { transform: translate(166px,-218px) rotateZ(47deg); }
 
@@ -97,6 +95,32 @@ const MeContainer = styled.div`
 
       }
    
+   }
+
+   @media screen and (max-width: 1024px) and (max-height: 800px) {
+
+      position: relative;
+      width: 300px;
+      height: 300px;
+      min-width: 300px;
+      min-height: 300px;
+      bottom: 0;
+      right: 0;
+      font-size: 4rem;
+      pointer-events: none;
+
+      .letter{
+
+         &:nth-of-type(1) { transform: translate(78px,-179px) rotateZ(33deg); }
+
+         &:nth-of-type(2) { transform: translate(119px,-148px) rotateZ(49deg); }
+
+         &:nth-of-type(3) { transform: translate(143px,-111px) rotateZ(63deg); }
+
+         &:nth-of-type(4) { transform: translate(158px,-66px) rotateZ(78deg); }
+
+      }
+
    }
 
 `;

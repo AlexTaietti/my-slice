@@ -74,9 +74,15 @@ const Hero = styled.header`
 
       h1{
          font-family: 'Pacifico', sans-serif;
-         font-size: 12rem;
+         font-size: 11rem;
          color: #0874F7;
       }
+
+   }
+
+   @media screen and (max-width: 1024px) and (max-height: 800px) {
+
+      h1{ font-size: 7rem; }
 
    }
 
@@ -119,5 +125,7 @@ const MoreButton = styled.p`
       }
 
    }
+
+   @media screen and (max-width: 1024px) and (max-height: 800px) { font-size: 3rem; }
 
 `;
