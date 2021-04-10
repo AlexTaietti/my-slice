@@ -31,48 +31,24 @@ const DescriptionContainer = styled.div`
       margin-bottom: 20px;
    }
 
-   @media screen and (min-width: 1440px){
-
-      h1{
-         font-size: 4.5rem;
-         margin-bottom: 10px;
-      }
-
-      p{
-         font-size: 2.3rem;
-         margin-bottom: 25px;
-      }
-
-   }
-
    @media screen and (max-width: 1200px){
       
-      margin-bottom: 70px;
+      max-width: 60%;
       text-align: center;
-      max-width: 50%;
 
-      h1{
-         font-size: 4.2rem;
-         margin-bottom: 10px;
-      }
+      h1{ font-size: 4.5rem; }
 
-      p{
-         font-size: 2.1rem;
-         margin-bottom: 25px;
-      }
+      p{ font-size: 2.5rem; }
 
    }
 
-   @media screen and (max-width: 1024px){
+   @media screen and (max-width: 800px){ max-width: 80%; }
 
-      max-width: 70%;
+   @media screen and (max-width: 500px){
 
-      h1{
-         font-size: 4.8rem;
-         margin-bottom: 5px;
-      }
+      h1{ font-size: 3.5rem; }
 
-      p{ font-size: 3rem; }
+      p{ font-size: 1.8rem; }
 
    }
 

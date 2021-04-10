@@ -22,8 +22,6 @@ const MeContainer = styled.div`
    position: absolute;
    width: 300px;
    height: 300px;
-   min-height: 300px;
-   min-width: 300px;
    bottom: 15%;
    right: 15%;
    border: 10px solid #cc1929;
@@ -71,42 +69,12 @@ const MeContainer = styled.div`
 
    }
 
-   @media screen and (max-width: 1024px) {
-      
+   @media screen and (max-width: 1024px){
+
+      display: block;
       position: relative;
-      width: 450px;
-      height: 450px;
-      min-width: 450px;
-      min-height: 450px;
-      bottom: 0;
-      right: 0;
-      font-size: 4rem;
-      pointer-events: none;
-
-      .letter{
-
-         &:nth-of-type(1) { transform: translate(166px,-218px) rotateZ(47deg); }
-
-         &:nth-of-type(2) { transform: translate(204px,-173px) rotateZ(56deg); }
-
-         &:nth-of-type(3) { transform: translate(228px,-120px) rotateZ(68deg); }
-
-         &:nth-of-type(4) { transform: translate(238px,-66px) rotateZ(84deg); }
-
-      }
-   
-   }
-
-   @media screen and (max-width: 1024px) and (max-height: 800px) {
-
-      position: relative;
-      width: 300px;
-      height: 300px;
-      min-width: 300px;
-      min-height: 300px;
-      bottom: 0;
-      right: 0;
-      font-size: 4rem;
+      top: 0;
+      left: 0;
       pointer-events: none;
 
       .letter{
@@ -118,6 +86,25 @@ const MeContainer = styled.div`
          &:nth-of-type(3) { transform: translate(143px,-111px) rotateZ(63deg); }
 
          &:nth-of-type(4) { transform: translate(158px,-66px) rotateZ(78deg); }
+
+      }
+
+   }
+
+   @media screen and (max-width: 600px){
+
+      width: 250px;
+      height: 250px;
+
+      .letter{
+
+         &:nth-of-type(1) { transform: translate(72px,-152px) rotateZ(35deg); }
+
+         &:nth-of-type(2) { transform: translate(108px,-124px) rotateZ(51deg); }
+
+         &:nth-of-type(3) { transform: translate(127px,-92px) rotateZ(64deg); }
+
+         &:nth-of-type(4) { transform: translate(136px,-55px) rotateZ(81deg); }
 
       }
 

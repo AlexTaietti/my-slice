@@ -25,14 +25,9 @@ const BubbleContainer = styled.p`
    font-family: 'Oswald', serif;
    cursor: default;
 
-   @media screen and (max-width: 1024px) { font-size: 3rem; }
-
-   @media screen and (max-width: 1024px) and (max-height: 800px) {
-
-      right: 112%;
-      top: 80%;
-      font-size: 2rem;
-
+   @media screen and (max-width: 500px){
+      right: 84%;
+      top: 97%;
    }
 
 `;
@@ -50,19 +45,10 @@ const ArrowContainer = styled.span`
       stroke: white;
    }
 
-   @media screen and (max-width: 1024px) {
-      
-      svg{
-         width: 65px;
-         height: 40px;
-      }
-   
-   }
-
-   @media screen and (max-width: 1024px) and (max-height: 800px) {
+   @media screen and (max-width: 500px){
 
       svg{
-         width: 40px;
+         width: 30px;
          height: 30px;
       }
 

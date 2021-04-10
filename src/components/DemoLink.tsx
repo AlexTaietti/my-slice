@@ -22,6 +22,7 @@ const takeoff = keyframes`
 const DemoButton = styled.button`
 
    background: #414344;
+   display: inline-block;
    color: white;
    transition-property: background;
    transition-duration: .4s;

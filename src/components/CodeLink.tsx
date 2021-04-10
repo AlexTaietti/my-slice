@@ -13,6 +13,7 @@ export const CodeLink: React.FC<{ link: string }> = ({ link }) => {
 const CodeButton = styled.button`
 
    position: relative;
+   display: inline-block;
    background: white;
    transition-property: color, background;
    transition-duration: .4s;

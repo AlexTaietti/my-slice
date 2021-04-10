@@ -22,14 +22,10 @@ const Project = styled.section`
    justify-content: space-evenly;
    overflow: hidden;
 
-   @media screen and (min-width: 1440px){ padding: 15%; }
-
    @media screen and (max-width: 1200px){
-      
-      padding: 5% 0 10%;
-      height: auto;
       flex-direction: column;
-   
+      height: auto;
+      padding: 10% 0;
    }
 
 `;

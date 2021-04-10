@@ -16,8 +16,6 @@ const ShowcaseContainer = styled.div`
 
    img{ width: 100%; }
 
-   @media screen and (max-width: 1200px) { max-width: 65%; }
-
-   @media screen and (max-width: 1024px) { width: 80%; }
+   @media screen and (max-width: 800px){ max-width: 65%; }
 
 `;

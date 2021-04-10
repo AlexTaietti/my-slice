@@ -15,4 +15,6 @@ const Button = styled.button`
 
    &:hover{ background: #fe9130; }
 
+   @media screen and (max-width: 500px){ display: none; }
+
 `;

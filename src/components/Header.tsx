@@ -7,6 +7,8 @@ export const Header: React.FC = () => {
 
    const [mobile, setMobile] = useState(window.innerWidth > 1024 ? false : true);
 
+   const [phone, setPhone] = useState(window.innerWidth > 500 ? false : true);
+
    useEffect(() => {
 
       const resizeHandler = () => {
@@ -15,13 +17,17 @@ export const Header: React.FC = () => {
 
          if (window.innerWidth >= 1024 && mobile) setMobile(false);
 
+         if (window.innerWidth < 500 && !phone) setPhone(true);
+
+         if (window.innerWidth >= 500 && phone) setPhone(false);
+
       };
 
       window.addEventListener('resize', resizeHandler);
 
       return () => window.removeEventListener('resize', resizeHandler);
 
-   }, [mobile]);
+   }, [mobile, phone]);
 
    const scrollToFirstProject = () => {
 
@@ -38,7 +44,7 @@ export const Header: React.FC = () => {
       <Hero>
          { !mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} offset={{ x: 17, y: 25 }} /> : <h1>Hellooo!</h1>}
          <Me />
-         <MoreButton onClick={scrollToFirstProject}>Things I made</MoreButton>
+         { !phone ? <MoreButton onClick={scrollToFirstProject}>Things I made</MoreButton> : <span onClick={scrollToFirstProject}>👇</span>}
       </Hero>
    );
 
@@ -64,27 +70,23 @@ const Hero = styled.header`
    z-index: 0;
    background: #030303;
 
-   @media screen and (max-width: 1024px) {
+   @media screen and (max-width: 1024px){
 
       display: flex;
       justify-content: space-evenly;
       flex-direction: column;
       align-items: center;
-      padding: 0 0 5%;
 
       h1{
+         font-size: 8rem;
+         text-align: center;
          font-family: 'Pacifico', sans-serif;
-         font-size: 11rem;
-         color: #0874F7;
+         color: rgb(8, 116, 247);
       }
 
    }
 
-   @media screen and (max-width: 1024px) and (max-height: 800px) {
-
-      h1{ font-size: 7rem; }
-
-   }
+   & > span { font-size: 3rem; }
 
 `;
 
@@ -110,22 +112,24 @@ const MoreButton = styled.p`
       animation-duration: 3s;
    }
 
-   @media screen and (max-width: 1024px) {
-      
-      font-size: 4rem;
+   @media screen and (max-width: 1024px){
+
+      display: block;
+      text-align: center;
       position: relative;
+      top: 0;
       left: 0;
-      bottom: 0;
+      font-size: 3rem;
 
       &::after{
          position: relative;
-         margin-left: 10px;
          left: 0;
          top: 0;
+         margin-left: 10px;
+         transform: none;
+         animation: none;
       }
 
    }
-
-   @media screen and (max-width: 1024px) and (max-height: 800px) { font-size: 3rem; }
 
 `;

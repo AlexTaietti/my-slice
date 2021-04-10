@@ -18,11 +18,10 @@ export const ButtonsContainer: React.FC<ButtonsContainerProps> = ({ demoLink, sp
 const Container = styled.div`
 
    display: flex;
-   align-items: center;
+   flex-wrap: wrap;
 
    button{
-
-      display: inline-block;
+      
       white-space: nowrap;
       border-radius: 5px;
 
@@ -36,12 +35,9 @@ const Container = styled.div`
 
    }
 
-   @media screen and (max-width: 1200px){ justify-content: center; }
-
-   @media screen and (max-width: 1024px){
-      
-      button{ font-size: 2rem; }
-   
+   @media screen and (max-width: 1200px){
+      justify-content: center;
+      margin-bottom: 30px;
    }
 
 `;
