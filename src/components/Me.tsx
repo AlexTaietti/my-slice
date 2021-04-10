@@ -27,4 +27,12 @@ const MeContainer = styled.div`
    background-size: cover;
    cursor: pointer;
 
+   @media screen and (max-width: 1024px) {
+      position: relative;
+      width: 450px;
+      height: 450px;
+      bottom: 0;
+      right: 0;
+   }
+
 `;

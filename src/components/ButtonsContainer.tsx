@@ -38,4 +38,10 @@ const Container = styled.div`
 
    @media screen and (max-width: 1200px){ justify-content: center; }
 
+   @media screen and (max-width: 1024px){
+      
+      button{ font-size: 1.8rem; }
+   
+   }
+
 `;

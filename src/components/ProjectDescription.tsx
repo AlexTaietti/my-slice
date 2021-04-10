@@ -17,7 +17,7 @@ export const Description: React.FC<DescriptionProps> = ({ title, info, demoLink,
 
 const DescriptionContainer = styled.div`
 
-   max-width: 47%;
+   max-width: 40%;
    font-family: 'Oswald', serif;
 
    h1{
@@ -49,6 +49,7 @@ const DescriptionContainer = styled.div`
       
       margin-bottom: 70px;
       text-align: center;
+      max-width: 50%;
 
       h1{
          font-size: 4.2rem;
@@ -56,7 +57,7 @@ const DescriptionContainer = styled.div`
       }
 
       p{
-         font-size: 2rem;
+         font-size: 2.1rem;
          margin-bottom: 25px;
       }
 

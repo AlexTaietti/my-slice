@@ -16,6 +16,7 @@ export class PerlinText {
    imageData: ImageData | undefined;
    referenceCanvas: HTMLCanvasElement;
    defaultFont: string = 'sans-serif';
+   frameID: number = 0;
 
    constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string, offset: Vec2D) {
 
@@ -107,7 +108,7 @@ export class PerlinText {
 
       this.PerlinParticles.animateParticles(this.context);
 
-      window.requestAnimationFrame(this.animate.bind(this));
+      this.frameID = window.requestAnimationFrame(this.animate.bind(this));
 
    }
 

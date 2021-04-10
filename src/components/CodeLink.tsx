@@ -25,13 +25,14 @@ const CodeButton = styled.button`
 
       svg{
          height: 100%;
+         display: inline-block;
          transition-property: fill;
          transition-duration: .4s;
       }
 
    }
 
-   &: hover{
+   &:hover{
       background: #1f1f1f;
       color: white;
       svg{ fill: white; }

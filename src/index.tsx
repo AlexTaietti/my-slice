@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
       display: block;
       margin: 0;
       width: 100%;
+      height: 100%;
    }
 
    canvas{ display: block; }
@@ -34,8 +35,8 @@ const GlobalStyle = createGlobalStyle`
 
    #slice{
       display: block;
-      position: relative;
       width: 100%;
+      height: 100%;
    }
 
 `;

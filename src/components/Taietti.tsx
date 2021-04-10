@@ -1,4 +1,4 @@
-import showcase from '../assets/taietti_showcase.png';
+import showcase from '../assets/taietti_screens.png';
 import { ProjectContainer } from './ProjectContainer';
 import { Showcase } from './Showcase';
 import { Description } from './ProjectDescription';

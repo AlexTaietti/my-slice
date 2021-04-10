@@ -32,6 +32,8 @@ const BubbleContainer = styled.p`
       stroke: white;
    }
 
+   @media screen and (max-width: 1024px) { font-size: 3rem; }
+
 `;
 
 const ArrowContainer = styled.span`

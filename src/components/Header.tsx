@@ -1,8 +1,27 @@
+import styled, { keyframes } from 'styled-components';
+import { useState, useEffect } from 'react';
 import { ParticleText } from './PerlinText';
 import { Me } from './Me';
-import styled, { keyframes } from 'styled-components';
 
 export const Header: React.FC = () => {
+
+   const [mobile, setMobile] = useState(window.innerWidth > 1024 ? false : true);
+
+   useEffect(() => {
+
+      const resizeHandler = () => {
+
+         if (window.innerWidth < 1024 && !mobile) setMobile(true);
+
+         if (window.innerWidth >= 1024 && mobile) setMobile(false);
+
+      };
+
+      window.addEventListener('resize', resizeHandler);
+
+      return () => window.removeEventListener('resize', resizeHandler);
+
+   }, [mobile]);
 
    const scrollToFirstProject = () => {
 
@@ -17,7 +36,7 @@ export const Header: React.FC = () => {
 
    return (
       <Hero>
-         <ParticleText text={"Hellooooo!"} fontSize={180} offset={{ x: 17, y: 25 }} />
+         { !mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} offset={{ x: 17, y: 25 }} /> : <h1>Hellooo!</h1>}
          <Me />
          <MoreButton onClick={scrollToFirstProject}>Things I made</MoreButton>
       </Hero>
@@ -39,8 +58,26 @@ const Hero = styled.header`
 
    display: block;
    width: 100%;
+   height: 100%;
    position: relative;
    overflow: hidden;
+
+   @media screen and (max-width: 1024px) {
+
+      background: #030303;
+      display: flex;
+      justify-content: space-evenly;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 10%;
+
+      h1{
+         font-family: 'Pacifico', sans-serif;
+         font-size: 12rem;
+         color: #0874F7;
+      }
+
+   }
 
 `;
 
@@ -53,7 +90,7 @@ const MoreButton = styled.p`
    cursor: pointer;
    color: white;
    font-family: 'Oswald', sans-serif;
-   font-size: 2.3rem;
+   font-size: 2.5rem;
 
    &::after{
       content: '👇';
@@ -61,10 +98,16 @@ const MoreButton = styled.p`
       left: 50%;
       top: 100%;
       transform: translateX(-50%);
-      font-size: 3rem;
       animation-name: ${pulse};
       animation-iteration-count: infinite;
       animation-duration: 3s;
+   }
+
+   @media screen and (max-width: 1024px) {
+      font-size: 4rem;
+      position: relative;
+      left: 0;
+      bottom: 0;
    }
 
 `;

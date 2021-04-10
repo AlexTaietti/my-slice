@@ -17,6 +17,6 @@ const AppWrapper = styled.div`
 
    display: block;
    width: 100%;
-   overflow: hidden;
+   height: 100%;
 
 `;
