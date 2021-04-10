@@ -22,6 +22,8 @@ const MeContainer = styled.div`
    position: absolute;
    width: 300px;
    height: 300px;
+   min-height: 300px;
+   min-width: 300px;
    bottom: 15%;
    right: 15%;
    border: 10px solid #cc1929;
@@ -74,8 +76,11 @@ const MeContainer = styled.div`
       position: relative;
       width: 450px;
       height: 450px;
+      min-width: 450px;
+      min-height: 450px;
       bottom: 0;
       right: 0;
+      pointer-events: none;
 
       .letter{
 

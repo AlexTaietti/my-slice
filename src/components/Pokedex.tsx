@@ -28,7 +28,7 @@ export const Pokedex: React.FC = () => {
 
          <Description
             title={{ text: "React meets Pokémon", color: 'white' }}
-            info={{ text: "This little project is entirely powered by React and nostalgia. All the assets I used in this adorable little app have been provided by the awesome people at PokeAPI.co.It allows users to browse through hundreds of pokémons and check some of their details...yes, even their weight.", color: 'black' }}
+            info={{ text: "This little project is entirely powered by React and nostalgia. All the assets I used in this adorable little app have been provided by the awesome people at PokeAPI.co. It allows users to browse through hundreds of pokémons and check some of their details...yes, even their weight.", color: 'black' }}
             demoLink={'http://pokething.surge.sh/'}
             codeLink={'https://github.com/AlexTaietti/React-Pokedex'}
             SpecialButton={PikachuButton}
