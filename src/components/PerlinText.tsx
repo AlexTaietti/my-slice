@@ -19,7 +19,19 @@ export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, offset
 
       window.addEventListener('resize', handleResize);
 
-      return () => window.removeEventListener('resize', handleResize);
+      return () => {
+
+         window.removeEventListener('resize', handleResize);
+
+         if (particleText.current) {
+
+            window.cancelAnimationFrame(particleText.current.frameID);
+
+            particleText.current = undefined;
+
+         }
+
+      };
 
    }, []);
 
