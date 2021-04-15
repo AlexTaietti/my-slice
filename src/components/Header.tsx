@@ -22,7 +22,7 @@ export const Header: React.FC = () => {
 
    }, [mobile]);
 
-   const scrollToFirstProject = () => {
+   const scrollToBio = () => {
 
       const bio = (document.getElementById('bio') as HTMLDivElement).getBoundingClientRect().top + window.scrollY;
 
@@ -35,7 +35,8 @@ export const Header: React.FC = () => {
 
    return (
       <Hero>
-         { !mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} /> : <h1 onClick={scrollToFirstProject}>Hellooo!</h1>}
+         { !mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} /> : <h1>Hellooo!</h1>}
+         <span onClick={scrollToBio} />
       </Hero>
    );
 
@@ -52,6 +53,22 @@ const Hero = styled.header`
    background: #030303;
    min-height: 600px;
 
+   span{
+
+      font-size: 2.5rem;
+      position: absolute;
+      bottom: 3%;
+      left: 50%;
+      display: inline-block;
+      transform: translateX(-50%);
+      cursor: pointer;
+
+      &::after{ content: '👇'; }
+
+      &:hover::after{ content: '🤘'; }
+
+   }
+
    @media screen and (max-width: 1024px){
 
       display: flex;
@@ -65,17 +82,6 @@ const Hero = styled.header`
          text-align: center;
          font-family: 'Pacifico', sans-serif;
          color: rgb(8, 116, 247);
-
-         &::after{
-            font-size: 4rem;
-            content: '👇';
-            position: absolute;
-            bottom: 3%;
-            left: 50%;
-            transform: translateX(-50%);
-         }
-
-         &:hover::after{ content: '🤘'; }
 
       }
 

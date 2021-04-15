@@ -7,7 +7,7 @@ export const Bio: React.FC = () => {
       <BioContainer id="bio">
          <div className='text'>
             <h1>About me</h1>
-            <p>I am a self-taught developer who wants to become a world class software engineer. I’m willing to roll-up my sleeves and do whatever the job requires to gain hands-on experience and learn from an amazing team. After high-school I moved to London on my own in search of opportunity and personal development, and have since had the chance to hone my customer service skills in some of the city’s best restaurants while transitioning into the field I am most passionate about: software engineering.</p>
+            <p>I am a self-taught developer who wants to become a world class software engineer. I’m willing to roll-up my sleeves and do whatever the job requires to gain hands-on experience and learn from an amazing team. Right after high-school I moved to London on my own in search of opportunity and personal development, and have since had the chance to hone my customer service skills in some of the city’s best restaurants while transitioning into the field I am most passionate about: software engineering.</p>
          </div>
          <Me />
       </BioContainer>
