@@ -28,6 +28,7 @@ const DescriptionContainer = styled.div`
 
    p{
       font-size: 2rem;
+      font-weight: lighter;
       margin-bottom: 20px;
    }
 

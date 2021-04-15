@@ -49,7 +49,7 @@ const BioContainer = styled.section`
       flex-direction: column-reverse;
 
       .text{
-         max-width: 70%;
+         max-width: 75%;
       }
 
    }
