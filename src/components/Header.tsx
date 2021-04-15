@@ -81,6 +81,4 @@ const Hero = styled.header`
 
    }
 
-   & > span { font-size: 3rem; }
-
 `;

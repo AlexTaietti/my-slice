@@ -25,9 +25,11 @@ export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize }) => {
 
          if (particleText.current) {
 
-            window.cancelAnimationFrame(particleText.current.frameID);
+            window.cancelAnimationFrame(particleText.current.frameID); //stop anmiation loop
 
-            particleText.current = undefined;
+            particleText.current.unmount(); //detach mouse events
+
+            particleText.current = undefined; //free memory
 
          }
 
@@ -42,6 +44,7 @@ export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize }) => {
 const CanvasContainer = styled.div`
 
    position: relative;
+   cursor: crosshair;
    display: block;
    width: 100%;
    height: 100vh;

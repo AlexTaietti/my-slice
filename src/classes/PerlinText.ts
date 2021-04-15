@@ -15,6 +15,7 @@ export class PerlinText {
    referenceCanvas: HTMLCanvasElement;
    defaultFont: string = 'sans-serif';
    frameID: number = 0;
+   unmount: () => void;
 
    constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string) {
 
@@ -40,6 +41,24 @@ export class PerlinText {
          inactive: () => this.initialiseParticleText(this.defaultFont)
 
       });
+
+      const updateMousePosition = (event: MouseEvent) => {
+         this.PerlinParticles.mousePosition.x = event.offsetX;
+         this.PerlinParticles.mousePosition.y = event.offsetY;
+      }
+
+      const resetMousePosition = () => {
+         this.PerlinParticles.mousePosition.x = -1;
+         this.PerlinParticles.mousePosition.y = -1;
+      }
+
+      this.canvas.addEventListener('mousemove', updateMousePosition);
+      this.canvas.addEventListener('mouseleave', resetMousePosition);
+
+      this.unmount = () => {
+         this.canvas.removeEventListener('mousemove', updateMousePosition);
+         this.canvas.removeEventListener('mouseleave', resetMousePosition);
+      };
 
    }
 

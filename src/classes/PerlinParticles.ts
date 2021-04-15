@@ -1,5 +1,5 @@
 import { Perlin3D } from '../helpers/Perlin3D';
-import { Square } from '../@types';
+import { Square, Vec2D } from '../@types';
 
 //cheeky shortcuts
 const random = Math.random;
@@ -20,11 +20,12 @@ export class PerlinParticles {
    inFormation = false;
    hue = Math.random() * (Math.PI * 2);
    RAINBOW = false;
+   mousePosition: Vec2D = { x: -1, y: -1 }
 
    //build a home for our particles <3
    particleDensity = 6;
    particleFields = 6; // number of properties used to identify each particle, 4 regarding it's location and speed and two regarding any target it might be moving towards
-   particlesNumber = 11000;
+   particlesNumber = 10000;
    particleArrayTotalSize = this.particlesNumber * this.particleFields;
    particles = new Float32Array(this.particleArrayTotalSize); //takes particle array total size on initialisation
    randomness = 0.854; //randomness threshold used to pick a particle
@@ -37,6 +38,8 @@ export class PerlinParticles {
    shapeSharpness = 19.8;
    formationNoiseIntensity = 0.6;
    noiseIntensity = 0.8;
+   seekerNoiseIntensity = 0.83;
+   seekerHampering = 0.0005;
    perlin = Perlin3D;
 
    constructor(worldWidth: number, worldHeight: number, rainbowMode?: boolean) {
@@ -101,6 +104,9 @@ export class PerlinParticles {
 
    animateParticles(context: CanvasRenderingContext2D) {
 
+      const mouseX = this.mousePosition.x;
+      const mouseY = this.mousePosition.y;
+
       //draw background
       context.fillStyle = `hsl(0, 0.0%, 1%)`;
       context.fillRect(0, 0, this.bounds.width, this.bounds.height);
@@ -114,11 +120,20 @@ export class PerlinParticles {
 
          //approach coordinates of target pixel if one has been assigned to this specific particle
          if (this.particles[i + 4] > 0 && this.particles[i + 5] > 0) {
+
             this.particles[i + 2] += ((this.particles[i + 4] - this.particles[i]) * this.formationHampering) + ((random() / this.shapeSharpness) * COS(random() * (PI2)) + noiseX * this.formationNoiseIntensity);
             this.particles[i + 3] += ((this.particles[i + 5] - this.particles[i + 1]) * this.formationHampering) + ((random() / this.shapeSharpness) * SIN(random() * (PI2)) + noiseY * this.formationNoiseIntensity);
+
+         } else if (mouseX >= 0 && mouseY >= 0) {
+
+            this.particles[i + 2] += ((mouseX - this.particles[i]) * this.seekerHampering) + ((random() / 4) * COS(random() * (PI2)) + noiseX * this.seekerNoiseIntensity);
+            this.particles[i + 3] += ((mouseY - this.particles[i + 1]) * this.seekerHampering) + ((random() / 4) * SIN(random() * (PI2)) + noiseY * this.seekerNoiseIntensity);
+
          } else { //simply change velocity components based on noise
+
             this.particles[i + 2] += ((random() / 4) * COS(random() * (PI2)) + noiseX * this.noiseIntensity);
             this.particles[i + 3] += ((random() / 4) * SIN(random() * (PI2)) + noiseY * this.noiseIntensity);
+
          }
 
          //slow the current particle and move it around
@@ -126,7 +141,7 @@ export class PerlinParticles {
          this.y = this.particles[i + 1] += (this.particles[i + 3] *= this.speedMultiplier);
 
          //wrap particles around edges only if they have not been assigned a target pixel
-         if (this.particles[i + 4] < 0 && this.particles[i + 5] < 0) {
+         if (this.particles[i + 4] < 0 && this.particles[i + 5] < 0 && (mouseX < 0 && mouseY < 0)) {
             if (this.x > this.bounds.width) {
                this.particles[i] = 0;
             } else if (this.x < 0) {
