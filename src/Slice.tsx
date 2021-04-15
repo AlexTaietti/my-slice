@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Header, ProjectsContainer, Bio } from './components';
+import { Header, ProjectsContainer, Bio, Pong } from './components';
 
 export const Slice: React.FC = () => {
 
@@ -8,6 +8,7 @@ export const Slice: React.FC = () => {
          <Header />
          <Bio />
          <ProjectsContainer />
+         <Pong />
       </AppWrapper>
    );
 
