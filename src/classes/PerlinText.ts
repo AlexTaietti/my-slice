@@ -15,6 +15,7 @@ export class PerlinText {
    referenceCanvas: HTMLCanvasElement;
    defaultFont: string = 'sans-serif';
    frameID: number = 0;
+   idle: boolean = false;
    unmount: () => void;
 
    constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string) {
@@ -117,6 +118,22 @@ export class PerlinText {
       this.PerlinParticles.updateBounds(this.context.canvas.width, this.context.canvas.height);
 
       this.materialiseText();
+
+   }
+
+   stop() {
+
+      window.cancelAnimationFrame(this.frameID);
+
+      this.idle = true;
+
+   }
+
+   resume() {
+
+      this.frameID = window.requestAnimationFrame(this.animate.bind(this));
+
+      this.idle = false;
 
    }
 
