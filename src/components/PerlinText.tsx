@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PerlinTextProps } from '../@types';
 import { PerlinText } from '../classes/PerlinText';
 
-export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, offset }) => {
+export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize }) => {
 
    const canvasContainer = useRef<HTMLDivElement>(null);
 
@@ -13,7 +13,7 @@ export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize, offset
 
    useEffect(() => {
 
-      particleText.current = new PerlinText(canvasContainer.current, text, fontSize, 'Pacifico', offset);
+      particleText.current = new PerlinText(canvasContainer.current, text, fontSize, 'Pacifico');
 
       particleText.current.animate();
 

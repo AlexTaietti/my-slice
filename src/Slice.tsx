@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { Header } from './components';
-import { ProjectsContainer } from './components';
+import { Header, ProjectsContainer, Bio } from './components';
 
 export const Slice: React.FC = () => {
 
    return (
       <AppWrapper>
          <Header />
+         <Bio />
          <ProjectsContainer />
       </AppWrapper>
    );

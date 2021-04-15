@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import me from '../assets/me.jpg';
-import { Bubble } from './Bubble';
 
 export const Me: React.FC = () => {
 
@@ -10,7 +9,6 @@ export const Me: React.FC = () => {
          <span className='letter'>L</span>
          <span className='letter'>E</span>
          <span className='letter'>X</span>
-         <Bubble />
       </MeContainer>
    );
 
@@ -19,16 +17,15 @@ export const Me: React.FC = () => {
 const MeContainer = styled.div`
 
    display: block;
-   position: absolute;
+   position: relative;
    width: 300px;
    height: 300px;
-   bottom: 15%;
-   right: 15%;
    border: 10px solid #cc1929;
    border-radius: 50%;
    background: url(${me});
    background-repeat: no-repeat;
    background-size: cover;
+   margin-left: 50px;
    cursor: pointer;
 
    .letter{
@@ -41,6 +38,7 @@ const MeContainer = styled.div`
       font-size: 4rem;
       font-family: 'Oswald', sans-serif;
       color: white;
+      text-shadow: 1px 1px 1px black;
       z-index: -1;
 
       &:nth-of-type(1) { transform: translate(-50%, -50%) rotateZ(33deg); }
@@ -76,10 +74,14 @@ const MeContainer = styled.div`
       top: 0;
       left: 0;
       pointer-events: none;
+      margin-left: 0;
+      margin-bottom: 50px;
 
       .letter{
 
-         &:nth-of-type(1) { transform: translate(78px,-179px) rotateZ(33deg); }
+         transition: none;
+
+         &:nth-of-type(1) { transform: translate(77px,-179px) rotateZ(33deg); }
 
          &:nth-of-type(2) { transform: translate(119px,-148px) rotateZ(49deg); }
 
@@ -95,7 +97,6 @@ const MeContainer = styled.div`
 
       width: 250px;
       height: 250px;
-      margin-bottom: 100px;
 
       .letter{
 

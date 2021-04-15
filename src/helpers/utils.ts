@@ -1,5 +1,3 @@
-import { Vec2D } from "../@types";
-
 export const cloneCanvas = (canvas: HTMLCanvasElement) => {
 
    const clone = document.createElement('canvas');
@@ -24,8 +22,8 @@ export const createReferenceCanvas = (canvas: HTMLCanvasElement, fontSize: numbe
    if (!clonedContext) throw new Error(`2d context not supported );`);
 
    clonedContext.font = `${fontSize}px ${fontFamily}`;
-   clonedContext.textAlign = "left";
-   clonedContext.textBaseline = "top";
+   clonedContext.textAlign = "center";
+   clonedContext.textBaseline = "middle";
 
    return clonedCanvas;
 
@@ -55,16 +53,16 @@ export const createFittingCanvas = (container: HTMLDivElement): [HTMLCanvasEleme
 
 };
 
-export const makeImageData = (canvas: HTMLCanvasElement, text: string, offset: Vec2D) => {
+export const makeImageData = (canvas: HTMLCanvasElement, text: string) => {
 
    const context = canvas.getContext('2d');
 
    if (!context) throw new Error(`2d context not supported );`);
 
-   const fromLeft = offset.x * context.canvas.width / 100;
-   const fromTop = offset.y * context.canvas.height / 100;
+   const centerX = context.canvas.width / 2;
+   const centerY = context.canvas.height / 2;
 
-   context.fillText(text, fromLeft, fromTop);
+   context.fillText(text, centerX, centerY);
 
    const data = context.getImageData(0, 0, canvas.width, canvas.height);
 

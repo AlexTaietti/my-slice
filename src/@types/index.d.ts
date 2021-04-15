@@ -1,10 +1,6 @@
 export type PerlinTextProps = {
    fontSize: number;
    text: string;
-   offset: {
-      x: number,
-      y: number,
-   };
 };
 
 export type ButtonsContainerProps = {

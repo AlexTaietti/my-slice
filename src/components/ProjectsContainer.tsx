@@ -6,7 +6,7 @@ import { Taietti } from './Taietti';
 export const ProjectsContainer: React.FC = () => {
 
    return (
-      <ProjectsWrapper id='projects'>
+      <ProjectsWrapper>
          <Spoofify />
          <Pokedex />
          <Taietti />
