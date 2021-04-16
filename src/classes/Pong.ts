@@ -12,42 +12,64 @@ export class PongGame {
    cpu: Cpu;
    context: CanvasRenderingContext2D;
    frameID = 0;
-   background = 'hsl(0, 0.0%, 1%)';
    playing = true;
-   unmount: () => void;
+   background = 'hsl(0, 0.0%, 1%)';
+   controlsFlags: { arrowUp: boolean, arrowDown: boolean };
+   unmount?: () => void;
 
    constructor(container: HTMLDivElement | null) {
 
       if (!container) throw new Error('Pong: Cannot initialise without a valid container');
 
       this.container = container;
+
       [this.canvas, this.context] = createFittingCanvas(container);
 
+      this.setFont();
+
+      this.controlsFlags = { arrowUp: false, arrowDown: false };
+
+      [this.player, this.cpu, this.ball] = this.initialiseEntities();
+
+      this.initialiseHandlers();
+
+   }
+
+   initialiseEntities(): [Player, Cpu, Ball] {
+
+      //initialise entities
       const canvasCenter = {
          x: this.canvas.width / 2,
          y: this.canvas.height / 2
       };
 
-      this.ball = new Ball({ x: canvasCenter.x - 10, y: canvasCenter.y - 10 }, 20);
+      const entityWidth = 10;
+      const PaddleHeight = this.canvas.height / 100 * 15;
+      const paddleMargin = 10;
 
-      this.player = new Player({ x: 20, y: canvasCenter.y - 50 }, 20, 100);
+      const ball = new Ball({ x: canvasCenter.x - entityWidth / 2, y: canvasCenter.y - entityWidth / 2 }, entityWidth);
+      const player = new Player({ x: paddleMargin, y: canvasCenter.y - PaddleHeight / 2 }, entityWidth, PaddleHeight);
+      const cpu = new Cpu({ x: canvasCenter.x * 2 - paddleMargin * 2, y: canvasCenter.y - PaddleHeight / 2 }, entityWidth, PaddleHeight);
 
-      this.cpu = new Cpu({ x: canvasCenter.x * 2 - 40, y: canvasCenter.y - 50 }, 20, 100);
+      const entities: [Player, Cpu, Ball] = [player, cpu, ball];
 
-      this.context.font = "30px sans-serif";
-      this.context.textAlign = "center";
-      this.context.textBaseline = "middle";
+      return entities;
 
-      const handleKeys = (event: KeyboardEvent) => {
+   }
+
+   initialiseHandlers() {
+
+      //attach event handlers responsible for the player's movement
+      const handleKeyPress = (event: KeyboardEvent) => {
 
          if (this.playing) event.preventDefault();
 
          switch (event.key) {
             case 'ArrowUp':
-               this.player.targetPosition.y -= 20;
+               this.controlsFlags.arrowUp = true;
                break;
             case 'ArrowDown':
-               this.player.targetPosition.y += 20;
+               this.controlsFlags.arrowDown = true;
                break;
             default:
                console.warn('you can only move up or down');
@@ -55,9 +77,59 @@ export class PongGame {
 
       };
 
-      window.addEventListener('keydown', handleKeys);
+      const handleKeyRelease = (event: KeyboardEvent) => {
 
-      this.unmount = () => window.removeEventListener('keydown', handleKeys);
+         if (this.playing) event.preventDefault();
+
+         switch (event.key) {
+            case 'ArrowUp':
+               this.controlsFlags.arrowUp = false;
+               break;
+            case 'ArrowDown':
+               this.controlsFlags.arrowDown = false;
+               break;
+            default:
+               console.warn('you can only move up or down');
+         }
+
+      };
+
+      window.addEventListener('keydown', handleKeyPress);
+      window.addEventListener('keyup', handleKeyRelease);
+
+      this.unmount = () => {
+         window.removeEventListener('keydown', handleKeyPress);
+         window.removeEventListener('keyup', handleKeyRelease);
+      }
+
+   }
+
+   resetEntities() {
+
+      const canvasCenter = {
+         x: this.canvas.width / 2,
+         y: this.canvas.height / 2
+      };
+
+      const entityWidth = 10;
+      const PaddleHeight = this.canvas.height / 100 * 15;
+      const paddleMargin = 10;
+
+      const newBallPosition = { x: canvasCenter.x - entityWidth / 2, y: canvasCenter.y - entityWidth / 2 };
+      const newPlayerPosition = { x: paddleMargin, y: canvasCenter.y - PaddleHeight / 2 };
+      const newCpuPosition = { x: canvasCenter.x * 2 - paddleMargin * 2, y: canvasCenter.y - PaddleHeight / 2 };
+
+      this.ball.setPosition(newBallPosition);
+      this.player.setPosition(newPlayerPosition);
+      this.cpu.setPosition(newCpuPosition);
+
+   }
+
+   setFont() {
+
+      this.context.font = "30px sans-serif";
+      this.context.textAlign = "center";
+      this.context.textBaseline = "middle";
 
    }
 
@@ -74,16 +146,22 @@ export class PongGame {
 
    }
 
-   drawCourt() {
-
-      this.context.save();
+   drawBackground = () => {
 
       this.context.fillStyle = this.background;
       this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+   }
+
+   drawCourt() {
+
+      this.context.save();
+
+      this.drawBackground();
+
       this.context.strokeStyle = 'white';
-      this.context.lineWidth = 5;
-      this.context.setLineDash([5, 10]);
+      this.context.lineWidth = 3;
+      this.context.setLineDash([10, 10]);
 
       this.context.beginPath();
       this.context.moveTo(this.canvas.width / 2, 0);
@@ -97,13 +175,17 @@ export class PongGame {
 
    update() {
 
-      this.ball.move(this.canvas.width, this.canvas.height);
+      if (this.controlsFlags.arrowUp) {
+         this.player.moveTarget(-10);
+      } else if (this.controlsFlags.arrowDown) {
+         this.player.moveTarget(10);
+      }
+
       this.player.move();
       this.cpu.move(this.ball.position);
 
-      if (this.ball.checkCollision(this.player)) console.log('player collision!');
-
-      if (this.ball.checkCollision(this.cpu)) console.log('cpu collision!');
+      this.ball.move(this.canvas.width, this.canvas.height, this.player, this.cpu);
+      this.ball.update(this.player, this.cpu);
 
    }
 
@@ -145,9 +227,9 @@ export class PongGame {
       this.canvas.style.width = `${this.container.clientWidth + "px"}`;
       this.canvas.style.height = `${this.container.clientHeight + "px"}`;
 
-      this.context.font = "30px sans-serif";
-      this.context.textAlign = "center";
-      this.context.textBaseline = "middle";
+      this.setFont();
+
+      this.resetEntities();
 
    }
 

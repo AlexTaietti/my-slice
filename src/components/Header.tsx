@@ -34,7 +34,7 @@ export const Header: React.FC = () => {
    };
 
    return (
-      <Hero>
+      <Hero id='hero'>
          { !mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} /> : <h1>Hellooo!</h1>}
          <span onClick={scrollToBio} />
       </Hero>

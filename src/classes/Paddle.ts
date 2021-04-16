@@ -18,6 +18,18 @@ export class Paddle {
 
    }
 
+   scorePoint() { this.score++; }
+
+   setPosition(position: Vec2D) {
+      this.position.x = position.x;
+      this.position.y = position.y;
+   }
+
+   setSize(width: number, height: number) {
+      this.width = width;
+      this.height = height;
+   }
+
    draw(context: CanvasRenderingContext2D) {
 
       context.save();

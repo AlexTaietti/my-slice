@@ -10,7 +10,6 @@ export const Pong: React.FC = () => {
 
    useEffect(() => {
 
-      //create particle text
       pong.current = new PongGame(canvasContainer.current);
 
       pong.current.animate();
@@ -24,16 +23,17 @@ export const Pong: React.FC = () => {
    }, []);
 
    //let's go!
-   return <CanvasContainer ref={canvasContainer} />;
+   return <GameContainer ref={canvasContainer} />;
 
 };
 
-const CanvasContainer = styled.div`
+const GameContainer = styled.div`
 
    position: relative;
    display: block;
    width: 100%;
    height: 100%;
    z-index: -1;
+   background: #030303;
 
 `;

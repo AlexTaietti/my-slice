@@ -13,6 +13,7 @@ export class Ball {
       this.position = position;
       this.side = side;
       this.color = color;
+
       this.velocity = {
          x: Math.random() * 5,
          y: Math.random() * 5
@@ -31,7 +32,27 @@ export class Ball {
 
    }
 
-   move(boundsX: number, boundsY: number) {
+   setPosition(position: Vec2D) {
+      this.position.x = position.x;
+      this.position.y = position.y;
+   }
+
+   update(player: Paddle, cpu: Paddle) {
+
+      if (this.checkCollision(player)) {
+         this.velocity.x = -this.velocity.x;
+         console.log('Awesome hit!');
+      }
+
+      if (this.checkCollision(cpu)) {
+         this.velocity.x = -this.velocity.x;
+         console.log('Booooo!');
+      }
+
+   }
+
+
+   move(boundsX: number, boundsY: number, player: Paddle, cpu: Paddle) {
 
       if (this.position.x + this.side >= boundsX || this.position.x <= 0) { this.velocity.x = -this.velocity.x; }
 
@@ -39,6 +60,9 @@ export class Ball {
 
       this.position.x += this.velocity.x;
       this.position.y += this.velocity.y;
+
+      if (this.position.x + this.side >= boundsX) player.scorePoint();
+      if (this.position.x <= 0) cpu.scorePoint();
 
    }
 
