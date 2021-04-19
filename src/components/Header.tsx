@@ -1,26 +1,7 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
 import { ParticleText } from './PerlinText';
 
-export const Header: React.FC = () => {
-
-   const [mobile, setMobile] = useState(window.innerWidth > 1024 ? false : true);
-
-   useEffect(() => {
-
-      const resizeHandler = () => {
-
-         if (window.innerWidth < 1024 && !mobile) setMobile(true);
-
-         if (window.innerWidth >= 1024 && mobile) setMobile(false);
-
-      };
-
-      window.addEventListener('resize', resizeHandler);
-
-      return () => window.removeEventListener('resize', resizeHandler);
-
-   }, [mobile]);
+export const Header: React.FC<{ mobile: boolean }> = ({ mobile }) => {
 
    const scrollToBio = () => {
 

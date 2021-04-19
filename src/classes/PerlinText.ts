@@ -57,6 +57,7 @@ export class PerlinText {
       this.canvas.addEventListener('mouseleave', resetMousePosition);
 
       this.unmount = () => {
+         this.stop();
          this.canvas.removeEventListener('mousemove', updateMousePosition);
          this.canvas.removeEventListener('mouseleave', resetMousePosition);
       };

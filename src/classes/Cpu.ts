@@ -21,7 +21,7 @@ export class Cpu extends Paddle {
 
       if (adjustedTarget + this.height >= worldEdge) { adjustedTarget = worldEdge - this.height; }
 
-      this.position.y += (adjustedTarget - this.position.y) * 0.178;
+      this.position.y += (adjustedTarget - this.position.y) * 0.13;
 
    }
 

@@ -30,7 +30,19 @@ export const Pong: React.FC = () => {
 
       if (canvasContainer.current) observer.observe(canvasContainer.current);
 
-      return () => window.removeEventListener('resize', handleResize);
+      return () => {
+
+         window.removeEventListener('resize', handleResize);
+
+         if (pong.current) {
+
+            pong.current.end();
+
+            pong.current = undefined; //free memory on unmount
+
+         }
+
+      }
 
    }, []);
 

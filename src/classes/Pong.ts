@@ -58,6 +58,11 @@ export class PongGame {
 
    }
 
+   end() {
+      if (this.unmount) this.unmount();
+      window.cancelAnimationFrame(this.frameID);
+   }
+
    initialiseEntities(): [Player, Cpu, Ball] {
 
       //initialise entities
