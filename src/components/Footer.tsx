@@ -28,24 +28,42 @@ export const Footer: React.FC = () => {
    //let's go!
    return (
 
-      playing ?
+      <FooterContainer>
 
-         <Pong />
+         {
 
-         :
+            playing ?
 
-         <FooterContainer className={fadingText ? 'fadeOut' : 'active'}>
-            <div className='text'>
-               <h1>Fin.</h1>
-               <p>Thank you for scrolling this far! Now please, be my guest, <span onClick={startGame}>play some pong</span> or <span onClick={scrollToTop}>go back to the top</span></p>
-            </div>
-         </FooterContainer>
+               <Pong />
+
+               :
+
+               <TextContainer className={fadingText ? 'fadeOut' : 'active'}>
+                  <div className='text'>
+                     <h1>Fin.</h1>
+                     <p>Thank you for scrolling this far! Now please, be my guest, <span onClick={startGame}>play some pong</span> or <span onClick={scrollToTop}>go back to the top</span></p>
+                  </div>
+               </TextContainer>
+
+         }
+
+      </FooterContainer>
 
    );
 
 };
 
 const FooterContainer = styled.footer`
+
+   background: #030303;
+   position: relative;
+   display: block;
+   width: 100%;
+   height: 100%;
+
+`;
+
+const TextContainer = styled.div`
 
    background: #030303;
    position: relative;

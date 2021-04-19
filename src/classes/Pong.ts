@@ -12,7 +12,9 @@ export class PongGame {
    cpu: Cpu;
    context: CanvasRenderingContext2D;
    frameID = 0;
-   playing = true;
+   playing = false;
+   instructions = true;
+   paused = false;
    background = 'hsl(0, 0.0%, 1%)';
    controlsFlags: { arrowUp: boolean, arrowDown: boolean };
    unmount?: () => void;
@@ -31,7 +33,28 @@ export class PongGame {
 
       [this.player, this.cpu, this.ball] = this.initialiseEntities();
 
-      this.initialiseHandlers();
+   }
+
+   start() {
+
+      this.draw();
+
+      this.drawInstructions();
+
+      const startGame = (event: KeyboardEvent) => {
+
+         if (event.key === 'Enter') {
+            this.instructions = false;
+            this.playing = true;
+            this.initialiseHandlers();
+            this.animate();
+         }
+
+         window.removeEventListener('keypress', startGame);
+
+      };
+
+      window.addEventListener('keypress', startGame);
 
    }
 
@@ -62,7 +85,11 @@ export class PongGame {
       //attach event handlers responsible for the player's movement
       const handleKeyPress = (event: KeyboardEvent) => {
 
-         if (this.playing) event.preventDefault();
+         if (event.key === ' ' && this.playing) { this.pause(); }
+
+         if (event.key === 'Enter' && !this.playing) { this.resume(); }
+
+         if (this.playing && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) event.preventDefault();
 
          switch (event.key) {
             case 'ArrowUp':
@@ -79,7 +106,7 @@ export class PongGame {
 
       const handleKeyRelease = (event: KeyboardEvent) => {
 
-         if (this.playing) event.preventDefault();
+         if (this.playing && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) event.preventDefault();
 
          switch (event.key) {
             case 'ArrowUp':
@@ -127,7 +154,7 @@ export class PongGame {
 
    setFont() {
 
-      this.context.font = "30px sans-serif";
+      this.context.font = "30px Pacifico";
       this.context.textAlign = "center";
       this.context.textBaseline = "middle";
 
@@ -173,16 +200,50 @@ export class PongGame {
 
    }
 
+   drawInstructions() {
+
+      this.context.save();
+
+      this.context.fillStyle = 'white';
+      this.context.font = '60px Pacifico';
+
+      this.context.fillText('YOU', (this.canvas.width / 4), this.canvas.height / 2);
+      this.context.fillText('CPU', ((this.canvas.width / 4) * 3), this.canvas.height / 2);
+
+      this.context.font = '20px Oswald';
+
+      this.context.textAlign = 'right';
+      this.context.fillText('Space = pause', this.canvas.width / 2 - 30, 70);
+
+      this.context.textAlign = 'left';
+      this.context.fillText('Enter = play', this.canvas.width / 2 + 30, 70);
+
+      this.context.restore();
+
+   }
+
    update() {
 
       if (this.controlsFlags.arrowUp) {
-         this.player.moveTarget(-10);
+
+         if (this.player.targetPosition <= 0) {
+
+            this.player.targetPosition = 0;
+
+         } else this.player.moveTarget(-10);
+
       } else if (this.controlsFlags.arrowDown) {
-         this.player.moveTarget(10);
+
+         if (this.player.targetPosition + this.player.height >= this.canvas.height) {
+
+            this.player.targetPosition = this.canvas.height - this.player.height;
+
+         } else this.player.moveTarget(10);
+
       }
 
       this.player.move();
-      this.cpu.move(this.ball.position);
+      this.cpu.move(this.ball, this.canvas.height);
 
       this.ball.move(this.canvas.width, this.canvas.height, this.player, this.cpu);
       this.ball.update(this.player, this.cpu);
@@ -200,6 +261,39 @@ export class PongGame {
       this.ball.draw(this.context);
       this.player.draw(this.context);
       this.cpu.draw(this.context);
+
+      if (this.paused) {
+
+         this.context.save();
+
+         this.context.fillStyle = 'white';
+         this.context.font = '80px Oswald';
+
+         this.context.fillText('Paused', this.canvas.width / 2, this.canvas.height / 2);
+
+         this.context.restore();
+
+      }
+
+   }
+
+   pause() {
+
+      window.cancelAnimationFrame(this.frameID);
+
+      this.playing = false;
+      this.paused = true;
+
+      this.draw();
+
+   }
+
+   resume() {
+
+      this.paused = false;
+      this.playing = true;
+
+      this.animate();
 
    }
 
@@ -230,6 +324,12 @@ export class PongGame {
       this.setFont();
 
       this.resetEntities();
+
+      this.ball.setSpeed(window.innerWidth / 100);
+
+      if (!this.playing) this.draw();
+
+      if (this.instructions) this.drawInstructions();
 
    }
 

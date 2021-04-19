@@ -1,18 +1,27 @@
 import { Vec2D } from '../@types';
+import { Ball } from './Ball';
 import { Paddle } from './Paddle';
 
 export class Cpu extends Paddle {
 
    constructor(position: Vec2D, width: number, height: number) {
 
+      console.log('creating cpu');
+
       //super construct a paddle
       super(position, width, height);
 
    }
 
-   move(target: Vec2D) {
+   move(target: Ball, worldEdge: number) {
 
-      this.position.y += (target.y - this.position.y) * 0.1;
+      let adjustedTarget = target.position.y - this.height / 2 + target.side / 2; //this way the cpu aims at hitting the ball smack in the middle
+
+      if (adjustedTarget <= 0) { adjustedTarget = 0; }
+
+      if (adjustedTarget + this.height >= worldEdge) { adjustedTarget = worldEdge - this.height; }
+
+      this.position.y += (adjustedTarget - this.position.y) * 0.178;
 
    }
 
