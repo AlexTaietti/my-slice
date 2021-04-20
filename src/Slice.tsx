@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Header, ProjectsContainer, Bio, Footer } from './components';
+import { Header, ProjectsContainer, Bio, Footer, Spinner } from './components';
 
 export const Slice: React.FC = () => {
 
    const [mobile, setMobile] = useState(window.innerWidth > 1024 ? false : true);
+   const [loading, setLoading] = useState(true);
 
    useEffect(() => {
 
@@ -22,13 +23,23 @@ export const Slice: React.FC = () => {
 
    }, [mobile]);
 
+   useEffect(() => { setLoading(false); }, []);
+
    return (
-      <AppWrapper>
-         <Header mobile={mobile} />
-         <Bio />
-         <ProjectsContainer />
-         {!mobile && <Footer />}
-      </AppWrapper>
+
+      loading ?
+
+         <Spinner />
+
+         :
+
+         <AppWrapper>
+            <Header mobile={mobile} />
+            <Bio />
+            <ProjectsContainer />
+            {!mobile && <Footer />}
+         </AppWrapper>
+
    );
 
 };
