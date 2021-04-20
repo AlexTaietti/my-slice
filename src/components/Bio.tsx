@@ -23,7 +23,7 @@ const BioContainer = styled.section`
    justify-content: center;
    width: 100%;
    padding: 15% 0;
-   background: #0f79e8;
+   background: #a10fe8;
    z-index: -2;
 
    .text{
