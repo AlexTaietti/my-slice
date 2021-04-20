@@ -1,8 +1,13 @@
 import { Square, Vec2D } from '../@types';
-import { createFittingCanvas } from '../helpers/utils';
+import { createFittingCanvas, pickRandom } from '../helpers/utils';
 import { Ball } from './Ball';
 import { Cpu } from './Cpu';
 import { Player } from './Player';
+import firstSound from '../assets/audio/pong-hit-first.mp3';
+import secondSound from '../assets/audio/pong-hit-second.mp3';
+import thirdSound from '../assets/audio/pong-hit-third.mp3';
+import fourthSound from '../assets/audio/pong-hit-fourth.mp3';
+import fifthSound from '../assets/audio/pong-hit-fifth.mp3';
 
 export class PongGame {
 
@@ -22,6 +27,10 @@ export class PongGame {
    private courtCenter: Vec2D;
    private courtBounds: Square;
 
+   //dumb noises
+   private readonly audioArray: Array<HTMLAudioElement> = [new Audio(firstSound), new Audio(secondSound), new Audio(thirdSound), new Audio(fourthSound), new Audio(fifthSound)];
+   private audio = true;
+
    private playerStep = window.innerWidth < 1300 ? 10 : 20;
    private entityWidth = window.innerWidth < 1300 ? 10 : 20;
    private paddleHeight: number;
@@ -31,7 +40,6 @@ export class PongGame {
    private unmount?: () => void;
 
    public playing = false;
-
 
    constructor(container: HTMLDivElement | null) {
 
@@ -107,6 +115,8 @@ export class PongGame {
 
    private initialiseHandlers() {
 
+      const handleMuteToggle = (event: KeyboardEvent) => { if (event.key === 'm') { this.audio = this.audio ? false : true; } }
+
       //attach event handlers responsible for the player's movement
       const handleKeyPress = (event: KeyboardEvent) => {
 
@@ -123,8 +133,6 @@ export class PongGame {
             case 'ArrowDown':
                this.controlsFlags.arrowDown = true;
                break;
-            default:
-               console.warn('you can only move up or down');
          }
 
       };
@@ -146,10 +154,12 @@ export class PongGame {
 
       };
 
+      window.addEventListener('keypress', handleMuteToggle);
       window.addEventListener('keydown', handleKeyPress);
       window.addEventListener('keyup', handleKeyRelease);
 
       this.unmount = () => {
+         window.removeEventListener('keypress', handleMuteToggle);
          window.removeEventListener('keydown', handleKeyPress);
          window.removeEventListener('keyup', handleKeyRelease);
       }
@@ -231,6 +241,13 @@ export class PongGame {
       this.context.closePath();
       this.context.stroke();
 
+      if (!this.audio) {
+         this.context.font = "35px Pacifico";
+         this.context.textAlign = 'left';
+         this.context.textBaseline = 'top';
+         this.context.fillText('🤐', 30, 30);
+      }
+
       this.context.restore();
 
    }
@@ -248,10 +265,13 @@ export class PongGame {
       this.context.font = '20px Oswald';
 
       this.context.textAlign = 'right';
-      this.context.fillText('Space = pause', this.courtCenter.x - 30, 70);
+      this.context.fillText('Space = pause', this.courtCenter.x - 100, 70);
+
+      this.context.textAlign = 'center';
+      this.context.fillText('Enter = play', this.courtCenter.x, 70);
 
       this.context.textAlign = 'left';
-      this.context.fillText('Enter = play', this.courtCenter.x + 30, 70);
+      this.context.fillText('m = mute', this.courtCenter.x + 100, 70);
 
       this.context.restore();
 
@@ -280,9 +300,10 @@ export class PongGame {
       this.player.move();
       this.cpu.move(this.ball, this.courtBounds.height);
 
-      this.ball.handleCollision(this.player, this.cpu);
+      const impact = this.ball.handleCollision(this.player, this.cpu);
       const pointScored = this.ball.move(this.courtBounds.width, this.courtBounds.height, this.player, this.cpu);
 
+      if (this.audio && impact) pickRandom(this.audioArray).play();
       if (pointScored) this.repositionPaddles();
 
    }

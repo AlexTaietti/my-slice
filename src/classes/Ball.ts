@@ -8,6 +8,7 @@ export class Ball {
    private readonly color = '#ff006f';
    private readonly impactCorrection = 0.6;
    private readonly particles: ParticleEmitter;
+   private readonly numberOfParticles = 300
 
    private readonly velocity: Vec2D = { x: 0, y: 0 };
    private angle: number = 0;
@@ -21,7 +22,7 @@ export class Ball {
       this.position = position;
       this.side = side;
 
-      this.particles = new ParticleEmitter(100, {
+      this.particles = new ParticleEmitter(this.numberOfParticles, {
          x: this.position.x + this.side / 2,
          y: this.position.y + this.side / 2
       });
@@ -74,6 +75,8 @@ export class Ball {
 
          this.setDirection(newAngle);
 
+         return true;
+
       }
 
       if (this.checkCollision(cpu)) {
@@ -84,7 +87,11 @@ export class Ball {
 
          this.setDirection(newAngle);
 
+         return true;
+
       }
+
+      return false;
 
    }
 
