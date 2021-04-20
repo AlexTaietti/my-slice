@@ -81,7 +81,7 @@ const GameContainer = styled.div`
 
 const Instructions = styled.div`
 
-   max-width: 30%;
+   max-width: 35%;
    background: #ae0b52;
    position: absolute;
    left: 50%;
@@ -89,13 +89,15 @@ const Instructions = styled.div`
    transform: translate(-50%, -50%);
    font-family: 'Oswald', sans-serif;
    font-size: 1.8rem;
-   padding: 15px 10px;
+   padding: 12px 15px 15px;
    color: white;
    cursor: pointer;
    text-shadow: 1px 1px 1px black;
    transition-duration: .4s;
    transition-property: opacity, transform;
    text-align: center;
+   border: 2px solid #0087ff;
+   border-radius: 5px;
 
    span{ color: #00cfff; }
 
