@@ -5,14 +5,16 @@ import { ParticleEmitter } from "./ParticleEmitter";
 
 export class Ball {
 
-   position: Vec2D;
-   velocity: Vec2D = { x: 0, y: 0 };
-   angle: number = 0;
-   speed: number = window.innerWidth / 100;
-   side: number;
-   color = '#ff006f';
-   particles: ParticleEmitter;
-   impactCorrection = 0.6;
+   private readonly color = '#ff006f';
+   private readonly impactCorrection = 0.6;
+   private readonly particles: ParticleEmitter;
+
+   private readonly velocity: Vec2D = { x: 0, y: 0 };
+   private angle: number = 0;
+   private speed: number = window.innerWidth < 1300 ? 12 : 30;
+
+   readonly side: number;
+   readonly position: Vec2D;
 
    constructor(position: Vec2D, side: number) {
 
@@ -31,7 +33,7 @@ export class Ball {
 
    }
 
-   checkCollision(paddle: Paddle) {
+   private checkCollision(paddle: Paddle) {
 
       if (this.position.x + this.side >= paddle.position.x
          && paddle.position.x + paddle.width >= this.position.x
@@ -42,30 +44,27 @@ export class Ball {
 
    }
 
-   setDirection(angle: number) {
+   private updateVelocity() {
+      this.velocity.x = Math.cos(this.angle) * this.speed;
+      this.velocity.y = Math.sin(this.angle) * this.speed;
+   }
 
+   private setDirection(angle: number) {
       this.angle = angle;
-
-      this.velocity.x = Math.cos(this.angle) * this.speed;
-      this.velocity.y = Math.sin(this.angle) * this.speed;
-
+      this.updateVelocity();
    }
 
-   setSpeed(value: number) {
-
+   public setSpeed(value: number) {
       this.speed = value;
-
-      this.velocity.x = Math.cos(this.angle) * this.speed;
-      this.velocity.y = Math.sin(this.angle) * this.speed;
-
+      this.updateVelocity();
    }
 
-   setPosition(position: Vec2D) {
+   public setPosition(position: Vec2D) {
       this.position.x = position.x;
       this.position.y = position.y;
    }
 
-   update(player: Paddle, cpu: Paddle) {
+   public handleCollision(player: Paddle, cpu: Paddle) {
 
       if (this.checkCollision(player)) {
 
@@ -74,8 +73,6 @@ export class Ball {
          const newAngle = mapToRange(relativeImpactY, 0, player.height, (-Math.PI) / 2 + this.impactCorrection, Math.PI / 2 - this.impactCorrection);
 
          this.setDirection(newAngle);
-
-         console.log('Awesome hit!');
 
       }
 
@@ -87,13 +84,11 @@ export class Ball {
 
          this.setDirection(newAngle);
 
-         console.log('Booooo!');
-
       }
 
    }
 
-   reset(boundsX: number, boundsY: number) {
+   private reset(boundsX: number, boundsY: number) {
 
       const courtCenter = {
          x: boundsX / 2,
@@ -105,20 +100,20 @@ export class Ball {
    }
 
 
-   move(boundsX: number, boundsY: number, player: Paddle, cpu: Paddle) {
+   public move(boundsX: number, boundsY: number, player: Paddle, cpu: Paddle) {
 
       if (this.position.x <= 0) {
          cpu.scorePoint();
          this.setDirection(Math.PI);
          this.reset(boundsX, boundsY);
-         return;
+         return true;
       }
 
       if (this.position.x + this.side >= boundsX) {
          player.scorePoint();
          this.setDirection(0);
          this.reset(boundsX, boundsY);
-         return;
+         return true;
       }
 
       if (this.position.y + this.side >= boundsY || this.position.y <= 0) { this.velocity.y = -this.velocity.y; }
@@ -133,20 +128,16 @@ export class Ball {
 
       this.particles.update();
 
+      return false;
+
    }
 
-   draw(context: CanvasRenderingContext2D) {
-
+   public draw(context: CanvasRenderingContext2D) {
       context.save();
-
       context.fillStyle = this.color;
-
       context.fillRect(this.position.x, this.position.y, this.side, this.side);
-
       context.restore();
-
       this.particles.draw(context);
-
    }
 
 }

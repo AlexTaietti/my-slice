@@ -1,3 +1,4 @@
+import { Square, Vec2D } from '../@types';
 import { createFittingCanvas } from '../helpers/utils';
 import { Ball } from './Ball';
 import { Cpu } from './Cpu';
@@ -5,19 +6,32 @@ import { Player } from './Player';
 
 export class PongGame {
 
-   container: HTMLDivElement;
-   canvas: HTMLCanvasElement;
-   ball: Ball;
-   player: Player;
-   cpu: Cpu;
-   context: CanvasRenderingContext2D;
-   frameID = 0;
-   playing = false;
-   instructions = true;
-   paused = false;
-   background = 'hsl(0, 0.0%, 1%)';
-   controlsFlags: { arrowUp: boolean, arrowDown: boolean };
-   unmount?: () => void;
+   private readonly container: HTMLDivElement;
+   private readonly canvas: HTMLCanvasElement;
+   private readonly context: CanvasRenderingContext2D;
+   private readonly background = 'hsl(0, 0.0%, 1%)';
+
+   private ball: Ball;
+   private player: Player;
+   private cpu: Cpu;
+
+   private frameID = 0;
+
+   private instructions = true;
+   private paused = false;
+   private courtCenter: Vec2D;
+   private courtBounds: Square;
+
+   private playerStep = window.innerWidth < 1300 ? 10 : 20;
+   private entityWidth = window.innerWidth < 1300 ? 10 : 20;
+   private paddleHeight: number;
+   private paddleMargin = window.innerWidth < 1300 ? 10 : 20;
+
+   private controlsFlags: { arrowUp: boolean, arrowDown: boolean };
+   private unmount?: () => void;
+
+   public playing = false;
+
 
    constructor(container: HTMLDivElement | null) {
 
@@ -27,6 +41,18 @@ export class PongGame {
 
       [this.canvas, this.context] = createFittingCanvas(container);
 
+      this.paddleHeight = this.canvas.height / 100 * 15;
+
+      this.courtCenter = {
+         x: this.canvas.width / 2,
+         y: this.canvas.height / 2
+      };
+
+      this.courtBounds = {
+         width: this.canvas.width,
+         height: this.canvas.height
+      };
+
       this.setFont();
 
       this.controlsFlags = { arrowUp: false, arrowDown: false };
@@ -35,7 +61,7 @@ export class PongGame {
 
    }
 
-   start() {
+   public start() {
 
       this.draw();
 
@@ -58,26 +84,20 @@ export class PongGame {
 
    }
 
-   end() {
+   public end() {
       if (this.unmount) this.unmount();
       window.cancelAnimationFrame(this.frameID);
    }
 
-   initialiseEntities(): [Player, Cpu, Ball] {
+   private initialiseEntities(): [Player, Cpu, Ball] {
 
-      //initialise entities
-      const canvasCenter = {
-         x: this.canvas.width / 2,
-         y: this.canvas.height / 2
-      };
+      const entityWidth = this.entityWidth;
+      const PaddleHeight = this.paddleHeight;
+      const paddleMargin = this.paddleMargin;
 
-      const entityWidth = 10;
-      const PaddleHeight = this.canvas.height / 100 * 15;
-      const paddleMargin = 10;
-
-      const ball = new Ball({ x: canvasCenter.x - entityWidth / 2, y: canvasCenter.y - entityWidth / 2 }, entityWidth);
-      const player = new Player({ x: paddleMargin, y: canvasCenter.y - PaddleHeight / 2 }, entityWidth, PaddleHeight);
-      const cpu = new Cpu({ x: canvasCenter.x * 2 - paddleMargin * 2, y: canvasCenter.y - PaddleHeight / 2 }, entityWidth, PaddleHeight);
+      const ball = new Ball({ x: this.courtCenter.x - entityWidth / 2, y: this.courtCenter.y - entityWidth / 2 }, entityWidth);
+      const player = new Player({ x: paddleMargin, y: this.courtCenter.y - PaddleHeight / 2 }, entityWidth, PaddleHeight);
+      const cpu = new Cpu({ x: this.courtBounds.width - paddleMargin * 2, y: this.courtCenter.y - PaddleHeight / 2 }, entityWidth, PaddleHeight);
 
       const entities: [Player, Cpu, Ball] = [player, cpu, ball];
 
@@ -85,7 +105,7 @@ export class PongGame {
 
    }
 
-   initialiseHandlers() {
+   private initialiseHandlers() {
 
       //attach event handlers responsible for the player's movement
       const handleKeyPress = (event: KeyboardEvent) => {
@@ -136,28 +156,38 @@ export class PongGame {
 
    }
 
-   resetEntities() {
+   private resetEntities() {
 
-      const canvasCenter = {
-         x: this.canvas.width / 2,
-         y: this.canvas.height / 2
-      };
+      this.playerStep = window.innerWidth < 1300 ? 10 : 20;
+      this.entityWidth = window.innerWidth < 1300 ? 10 : 20;
+      this.paddleHeight = this.canvas.height / 100 * 15;
+      this.paddleMargin = window.innerWidth < 1300 ? 10 : 20;
 
-      const entityWidth = 10;
-      const PaddleHeight = this.canvas.height / 100 * 15;
-      const paddleMargin = 10;
-
-      const newBallPosition = { x: canvasCenter.x - entityWidth / 2, y: canvasCenter.y - entityWidth / 2 };
-      const newPlayerPosition = { x: paddleMargin, y: canvasCenter.y - PaddleHeight / 2 };
-      const newCpuPosition = { x: canvasCenter.x * 2 - paddleMargin * 2, y: canvasCenter.y - PaddleHeight / 2 };
+      const newBallPosition = { x: this.courtCenter.x - this.entityWidth / 2, y: this.courtCenter.y - this.entityWidth / 2 };
+      const newPlayerPosition = { x: this.paddleMargin, y: this.courtCenter.y - this.paddleHeight / 2 };
+      const newCpuPosition = { x: this.courtBounds.width - this.paddleMargin * 2, y: this.courtCenter.y - this.paddleHeight / 2 };
 
       this.ball.setPosition(newBallPosition);
       this.player.setPosition(newPlayerPosition);
       this.cpu.setPosition(newCpuPosition);
 
+      this.cpu.resetSmoothingFactor(this.courtBounds.width);
+
    }
 
-   setFont() {
+   private repositionPaddles() {
+
+      const newPlayerPosition = { x: this.paddleMargin, y: this.courtCenter.y - this.paddleHeight / 2 };
+      const newCpuPosition = { x: this.courtBounds.width - this.paddleMargin * 2, y: this.courtCenter.y - this.paddleHeight / 2 };
+
+      this.player.targetPosition = newPlayerPosition.y;
+
+      this.player.setPosition(newPlayerPosition);
+      this.cpu.setPosition(newCpuPosition);
+
+   }
+
+   private setFont() {
 
       this.context.font = "30px Pacifico";
       this.context.textAlign = "center";
@@ -165,27 +195,27 @@ export class PongGame {
 
    }
 
-   drawScore() {
+   private drawScore() {
 
       this.context.save();
 
       this.context.fillStyle = 'white';
 
-      this.context.fillText(this.player.score.toString(), this.canvas.width / 2 - 50, 30);
-      this.context.fillText(this.cpu.score.toString(), this.canvas.width / 2 + 50, 30);
+      this.context.fillText(this.player.score.toString(), this.courtCenter.x - 50, 30);
+      this.context.fillText(this.cpu.score.toString(), this.courtCenter.x + 50, 30);
 
       this.context.restore();
 
    }
 
-   drawBackground = () => {
+   private drawBackground = () => {
 
       this.context.fillStyle = this.background;
-      this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.context.fillRect(0, 0, this.courtBounds.width, this.courtBounds.height);
 
    }
 
-   drawCourt() {
+   private drawCourt() {
 
       this.context.save();
 
@@ -196,8 +226,8 @@ export class PongGame {
       this.context.setLineDash([10, 10]);
 
       this.context.beginPath();
-      this.context.moveTo(this.canvas.width / 2, 0);
-      this.context.lineTo(this.canvas.width / 2, this.canvas.height);
+      this.context.moveTo(this.courtCenter.x, 0);
+      this.context.lineTo(this.courtCenter.x, this.courtBounds.height);
       this.context.closePath();
       this.context.stroke();
 
@@ -205,29 +235,29 @@ export class PongGame {
 
    }
 
-   drawInstructions() {
+   private drawInstructions() {
 
       this.context.save();
 
       this.context.fillStyle = 'white';
       this.context.font = '60px Pacifico';
 
-      this.context.fillText('YOU', (this.canvas.width / 4), this.canvas.height / 2);
-      this.context.fillText('CPU', ((this.canvas.width / 4) * 3), this.canvas.height / 2);
+      this.context.fillText('YOU', (this.courtCenter.x / 2), this.courtCenter.y);
+      this.context.fillText('CPU', ((this.courtCenter.x / 2) * 3), this.courtCenter.y);
 
       this.context.font = '20px Oswald';
 
       this.context.textAlign = 'right';
-      this.context.fillText('Space = pause', this.canvas.width / 2 - 30, 70);
+      this.context.fillText('Space = pause', this.courtCenter.x - 30, 70);
 
       this.context.textAlign = 'left';
-      this.context.fillText('Enter = play', this.canvas.width / 2 + 30, 70);
+      this.context.fillText('Enter = play', this.courtCenter.x + 30, 70);
 
       this.context.restore();
 
    }
 
-   update() {
+   private update() {
 
       if (this.controlsFlags.arrowUp) {
 
@@ -235,29 +265,31 @@ export class PongGame {
 
             this.player.targetPosition = 0;
 
-         } else this.player.moveTarget(-10);
+         } else this.player.moveTarget(-this.playerStep);
 
       } else if (this.controlsFlags.arrowDown) {
 
-         if (this.player.targetPosition + this.player.height >= this.canvas.height) {
+         if (this.player.targetPosition + this.player.height >= this.courtBounds.height) {
 
-            this.player.targetPosition = this.canvas.height - this.player.height;
+            this.player.targetPosition = this.courtBounds.height - this.player.height;
 
-         } else this.player.moveTarget(10);
+         } else this.player.moveTarget(this.playerStep);
 
       }
 
       this.player.move();
-      this.cpu.move(this.ball, this.canvas.height);
+      this.cpu.move(this.ball, this.courtBounds.height);
 
-      this.ball.move(this.canvas.width, this.canvas.height, this.player, this.cpu);
-      this.ball.update(this.player, this.cpu);
+      this.ball.handleCollision(this.player, this.cpu);
+      const pointScored = this.ball.move(this.courtBounds.width, this.courtBounds.height, this.player, this.cpu);
+
+      if (pointScored) this.repositionPaddles();
 
    }
 
-   draw() {
+   private draw() {
 
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.context.clearRect(0, 0, this.courtBounds.width, this.courtBounds.height);
 
       this.drawCourt();
 
@@ -274,7 +306,7 @@ export class PongGame {
          this.context.fillStyle = '#ff006f';
          this.context.font = '80px Oswald';
 
-         this.context.fillText('Paused', this.canvas.width / 2, this.canvas.height / 2);
+         this.context.fillText('Paused', this.courtCenter.x, this.courtCenter.y);
 
          this.context.restore();
 
@@ -282,7 +314,7 @@ export class PongGame {
 
    }
 
-   pause() {
+   public pause() {
 
       window.cancelAnimationFrame(this.frameID);
 
@@ -293,7 +325,7 @@ export class PongGame {
 
    }
 
-   resume() {
+   public resume() {
 
       this.paused = false;
       this.playing = true;
@@ -302,7 +334,7 @@ export class PongGame {
 
    }
 
-   animate() {
+   public animate() {
 
       this.update();
       this.draw();
@@ -311,7 +343,7 @@ export class PongGame {
 
    }
 
-   resize() {
+   public resize() {
 
       const pixelRatio = window.devicePixelRatio;
 
@@ -323,14 +355,22 @@ export class PongGame {
       this.context.canvas.width = newWidth;
       this.context.canvas.height = newHeight;
 
+      this.courtCenter = {
+         x: this.canvas.width / 2,
+         y: this.canvas.height / 2
+      };
+
+      this.courtBounds = {
+         width: this.canvas.width,
+         height: this.canvas.height
+      };
+
       this.canvas.style.width = `${this.container.clientWidth + "px"}`;
       this.canvas.style.height = `${this.container.clientHeight + "px"}`;
 
       this.setFont();
 
       this.resetEntities();
-
-      this.ball.setSpeed(window.innerWidth / 100);
 
       if (!this.playing) this.draw();
 

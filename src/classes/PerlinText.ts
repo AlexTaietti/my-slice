@@ -4,19 +4,21 @@ import webfontloader from 'webfontloader';
 
 export class PerlinText {
 
-   text: string;
-   fontSize: number;
-   fontFamily: string;
-   container: HTMLDivElement;
-   PerlinParticles: PerlinParticles;
-   canvas: HTMLCanvasElement;
-   context: CanvasRenderingContext2D;
-   imageData: ImageData | undefined;
-   referenceCanvas: HTMLCanvasElement;
-   defaultFont: string = 'sans-serif';
-   frameID: number = 0;
-   idle: boolean = false;
-   unmount: () => void;
+   private readonly container: HTMLDivElement;
+   private readonly PerlinParticles: PerlinParticles;
+   private readonly canvas: HTMLCanvasElement;
+   private readonly context: CanvasRenderingContext2D;
+   private readonly text: string;
+   private readonly fontSize: number;
+   private readonly referenceCanvas: HTMLCanvasElement;
+   private readonly defaultFont: string = 'sans-serif';
+
+   private frameID: number = 0;
+   private imageData: ImageData | undefined;
+   private fontFamily: string;
+
+   public idle: boolean = false;
+   public unmount: () => void;
 
    constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string) {
 
@@ -44,14 +46,15 @@ export class PerlinText {
       });
 
       const updateMousePosition = (event: MouseEvent) => {
-         this.PerlinParticles.mousePosition.x = event.offsetX;
-         this.PerlinParticles.mousePosition.y = event.offsetY;
+
+         this.PerlinParticles.setMousePosition({
+            x: event.offsetX,
+            y: event.offsetY
+         });
+
       }
 
-      const resetMousePosition = () => {
-         this.PerlinParticles.mousePosition.x = -1;
-         this.PerlinParticles.mousePosition.y = -1;
-      }
+      const resetMousePosition = () => { this.PerlinParticles.setMousePosition({ x: -1, y: -1 }); }
 
       this.canvas.addEventListener('mousemove', updateMousePosition);
       this.canvas.addEventListener('mouseleave', resetMousePosition);
@@ -64,7 +67,7 @@ export class PerlinText {
 
    }
 
-   setFont(font: string) {
+   private setFont(font: string) {
 
       this.fontFamily = font;
 
@@ -78,17 +81,17 @@ export class PerlinText {
 
    }
 
-   initialiseParticleText(font: string) {
+   private initialiseParticleText(font: string) {
       this.setFont(font);
       this.imageData = makeImageData(this.referenceCanvas, this.text);
       this.PerlinParticles.initFormation(this.imageData);
    }
 
-   materialiseText() { this.PerlinParticles.initFormation(this.imageData); }
+   private materialiseText() { this.PerlinParticles.initFormation(this.imageData); }
 
-   disperseParticles() { this.PerlinParticles.endFormation(); }
+   private disperseParticles() { this.PerlinParticles.endFormation(); }
 
-   resize() {
+   public resize() {
 
       const pixelRatio = window.devicePixelRatio;
 
@@ -122,7 +125,7 @@ export class PerlinText {
 
    }
 
-   stop() {
+   public stop() {
 
       window.cancelAnimationFrame(this.frameID);
 
@@ -130,7 +133,7 @@ export class PerlinText {
 
    }
 
-   resume() {
+   public resume() {
 
       this.frameID = window.requestAnimationFrame(this.animate.bind(this));
 
@@ -138,7 +141,7 @@ export class PerlinText {
 
    }
 
-   animate() {
+   public animate() {
 
       this.PerlinParticles.animateParticles(this.context);
 

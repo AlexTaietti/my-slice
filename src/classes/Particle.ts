@@ -3,20 +3,21 @@ import { randomInRange } from "../helpers/utils";
 
 export class Particle {
 
-   position: Vec2D;
-   maxLife = 50;
-   velocity: Vec2D = { x: Math.random() * randomInRange(-2, 2), y: Math.random() * randomInRange(-2, 2) };
-   life = Math.random() * this.maxLife;
+   private readonly maxLife = 50;
+
+   private life = Math.random() * this.maxLife;
+   private position: Vec2D;
+   private velocity: Vec2D = { x: Math.random() * randomInRange(-2, 2), y: Math.random() * randomInRange(-2, 2) };
 
    constructor(position: Vec2D) { this.position = position; }
 
-   reset(position: Vec2D) {
+   public reset(position: Vec2D) {
       this.velocity = { x: Math.random() * randomInRange(-2, 2), y: Math.random() * randomInRange(-2, 2) };;
       this.position = position;
       this.life = Math.random() * this.maxLife;
    }
 
-   update() {
+   public update() {
 
       if (this.life > 0) {
 
@@ -29,10 +30,6 @@ export class Particle {
 
    }
 
-   draw(context: CanvasRenderingContext2D) {
-
-      context.fillRect(this.position.x, this.position.y, 1, 1);
-
-   }
+   public draw(context: CanvasRenderingContext2D) { context.fillRect(this.position.x, this.position.y, 1, 1); }
 
 }

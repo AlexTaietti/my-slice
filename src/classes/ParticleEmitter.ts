@@ -3,10 +3,10 @@ import { Particle } from "./Particle";
 
 export class ParticleEmitter {
 
-   particles: Array<Particle>;
-   position: Vec2D;
-   color = '#ff006f';
-   particleNumber: number;
+   private particles: Array<Particle>;
+   private position: Vec2D;
+   private readonly color = '#ff006f';
+   private readonly particleNumber: number;
 
    constructor(particleNumber: number, position: Vec2D) {
 
@@ -16,14 +16,14 @@ export class ParticleEmitter {
 
    }
 
-   setPosition(position: Vec2D) {
+   public setPosition(position: Vec2D) {
       this.position.x = position.x;
       this.position.y = position.y;
    }
 
-   updatePosition(newPosition: Vec2D) { this.position = newPosition; }
+   public updatePosition(newPosition: Vec2D) { this.position = newPosition; }
 
-   update() {
+   public update() {
 
       if (this.particles.length < this.particleNumber) { this.particles.push(new Particle({ ...this.position })); }
 
@@ -41,10 +41,9 @@ export class ParticleEmitter {
 
    }
 
-   draw(context: CanvasRenderingContext2D) {
+   public draw(context: CanvasRenderingContext2D) {
 
       context.save();
-
       context.fillStyle = this.color;
 
       for (let i = 0; i < this.particles.length; i++) { this.particles[i].draw(context); }

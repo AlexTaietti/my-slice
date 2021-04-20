@@ -3,7 +3,7 @@ import { Paddle } from './Paddle';
 
 export class Player extends Paddle {
 
-   targetPosition: number;
+   public targetPosition: number;
 
    constructor(position: Vec2D, width: number, height: number) {
 
@@ -14,8 +14,8 @@ export class Player extends Paddle {
 
    }
 
-   moveTarget(value: number) { this.targetPosition += value; }
+   public moveTarget(value: number) { this.targetPosition += value; }
 
-   move() { this.position.y += (this.targetPosition - this.position.y) * 0.25; }
+   public move() { this.position.y += (this.targetPosition - this.position.y) * 0.25; }
 
 }
