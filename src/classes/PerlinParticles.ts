@@ -11,36 +11,35 @@ const NOW = Date.now;
 
 export class PerlinParticles {
 
-   bounds: Square; //will have to be calculated on initialisation
-
-   //these two props are temporary coordinate holders for every particle's update cycle (all particles are sharing them), used to avoid allocating memory needlessly on every individual particle's update cycle...particle, particle...particle, particle, particle...you get the gist
-   x = -1;
-   y = -1;
-
-   inFormation = false;
-   hue = Math.random() * (Math.PI * 2);
-   RAINBOW = false;
-   mousePosition: Vec2D = { x: -1, y: -1 }
+   private readonly bounds: Square; //will have to be calculated on initialisation
 
    //build a home for our particles <3
-   particleDensity = 6;
-   particleFields = 6; // number of properties used to identify each particle, 4 regarding it's location and speed and two regarding any target it might be moving towards
-   particlesNumber = 10000;
-   particleArrayTotalSize = this.particlesNumber * this.particleFields;
-   particles = new Float32Array(this.particleArrayTotalSize); //takes particle array total size on initialisation
-   randomness = 0.854; //randomness threshold used to pick a particle
+   private readonly particleFields = 6; // number of properties used to identify each particle, 4 regarding it's location and speed and two regarding any target it might be moving towards
+   private readonly particlesNumber = 10000;
+   private readonly particleArrayTotalSize = this.particlesNumber * this.particleFields;
+   private readonly particles = new Float32Array(this.particleArrayTotalSize); //takes particle array total size on initialisation
+   private readonly randomness = 0.854; //randomness threshold used to pick a particle
 
    //all of these props determine the final feel of the swarm
-   speedMultiplier = 0.953;
-   gridShrinkFactor = 190;
-   zComponentShrink = 4000;
-   formationHampering = 0.0095;
-   shapeSharpness = 19.8;
-   formationNoiseIntensity = 0.6;
-   noiseIntensity = 0.8;
-   seekerNoiseIntensity = 0.83;
-   seekerHampering = 0.0005;
-   perlin = Perlin3D;
+   private readonly speedMultiplier = 0.953;
+   private readonly gridShrinkFactor = 190;
+   private readonly zComponentShrink = 4000;
+   private readonly formationHampering = 0.0095;
+   private readonly shapeSharpness = 19.8;
+   private readonly formationNoiseIntensity = 0.6;
+   private readonly noiseIntensity = 0.8;
+   private readonly seekerNoiseIntensity = 0.83;
+   private readonly seekerHampering = 0.0005;
+   private readonly perlin = Perlin3D;
+
+   //these two props are temporary coordinate holders for every particle's update cycle (all particles are sharing them), used to avoid allocating memory needlessly on every individual particle's update cycle...particle, particle...particle, particle, particle...you get the gist
+   private x = -1;
+   private y = -1;
+
+   private inFormation = false;
+   private hue = Math.random() * (Math.PI * 2);
+   private RAINBOW = false;
+   private mousePosition: Vec2D = { x: -1, y: -1 }
 
    constructor(worldWidth: number, worldHeight: number, rainbowMode?: boolean) {
 
@@ -62,13 +61,18 @@ export class PerlinParticles {
 
    }
 
-   updateBounds(worldWidth: number, worldHeight: number) {
+   public setMousePosition(offset: Vec2D) {
+      this.mousePosition.x = offset.x;
+      this.mousePosition.y = offset.y;
+   }
+
+   public updateBounds(worldWidth: number, worldHeight: number) {
       this.bounds.width = worldWidth;
       this.bounds.height = worldHeight;
    }
 
 
-   initFormation(imageData: ImageData | undefined) {
+   public initFormation(imageData: ImageData | undefined) {
 
       if (!imageData) {
          console.warn('Particle text could not get into formation because of undefined image data');
@@ -89,7 +93,7 @@ export class PerlinParticles {
 
    }
 
-   endFormation() {
+   public endFormation() {
 
       for (let i = 0; i < this.particleArrayTotalSize; i += this.particleFields) {
          this.particles[i + 4] = -1;
@@ -100,9 +104,9 @@ export class PerlinParticles {
 
    }
 
-   areInFormation() { return this.inFormation; }
+   public areInFormation() { return this.inFormation; }
 
-   animateParticles(context: CanvasRenderingContext2D) {
+   public animateParticles(context: CanvasRenderingContext2D) {
 
       const mouseX = this.mousePosition.x;
       const mouseY = this.mousePosition.y;

@@ -1,3 +1,4 @@
+//canvas utils
 export const cloneCanvas = (canvas: HTMLCanvasElement) => {
 
    const clone = document.createElement('canvas');
@@ -69,3 +70,15 @@ export const makeImageData = (canvas: HTMLCanvasElement, text: string) => {
    return data;
 
 };
+
+//quick mafs
+export const rad2deg = (rad: number) => rad * 180 / Math.PI;
+
+export const deg2rad = (deg: number) => deg * Math.PI / 180;
+
+export const mapToRange = (v: number, low0: number, high0: number, low1: number, high1: number) => (((high1 - low1) / (high0 - low0)) * (v - low0)) + low1;
+
+export const randomInRange = (low: number, high: number) => (Math.random() * (high - low)) + low;
+
+//misc
+export const pickRandom = (array: Array<any>) => array[~~(Math.random() * array.length)];

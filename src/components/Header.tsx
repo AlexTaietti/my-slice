@@ -1,26 +1,7 @@
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { ParticleText } from './PerlinText';
 
-export const Header: React.FC = () => {
-
-   const [mobile, setMobile] = useState(window.innerWidth > 1024 ? false : true);
-
-   useEffect(() => {
-
-      const resizeHandler = () => {
-
-         if (window.innerWidth < 1024 && !mobile) setMobile(true);
-
-         if (window.innerWidth >= 1024 && mobile) setMobile(false);
-
-      };
-
-      window.addEventListener('resize', resizeHandler);
-
-      return () => window.removeEventListener('resize', resizeHandler);
-
-   }, [mobile]);
+export const Header: React.FC<{ mobile: boolean }> = ({ mobile }) => {
 
    const scrollToBio = () => {
 
@@ -34,13 +15,23 @@ export const Header: React.FC = () => {
    };
 
    return (
-      <Hero>
+      <Hero id='hero'>
          { !mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} /> : <h1>Hellooo!</h1>}
-         <span onClick={scrollToBio} />
+         <span onClick={scrollToBio}>Get to know me</span>
       </Hero>
    );
 
 };
+
+const pulse = keyframes`
+
+   0%{ transform: translateY(0px); }
+
+   20%{ transform: translateY(10px); }
+
+   40%{ transform: translateY(0px); }
+
+`;
 
 const Hero = styled.header`
 
@@ -55,17 +46,30 @@ const Hero = styled.header`
 
    span{
 
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       position: absolute;
       bottom: 3%;
       left: 50%;
       display: inline-block;
       transform: translateX(-50%);
       cursor: pointer;
+      color: white;
+      font-family: 'Oswald', sans-serif;
+      text-align: center;
 
-      &::after{ content: '👇'; }
+      &::after{
+         animation-name: ${pulse};
+         animation-duration: 2s;
+         animation-iteration-count: infinite;
+         margin-top: 5px;
+         display: block;
+         content: '👇';
+      }
 
-      &:hover::after{ content: '🤘'; }
+      &:hover::after{
+         animation: none;
+         content: '🤘';
+      }
 
    }
 

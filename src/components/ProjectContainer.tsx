@@ -28,6 +28,6 @@ const Project = styled.section`
       padding: 10% 0;
    }
 
-    @media screen and (min-width: 1500px){ max-height: 1000px; }
+   @media screen and (min-width: 1500px){ max-height: 1000px; }
 
 `;

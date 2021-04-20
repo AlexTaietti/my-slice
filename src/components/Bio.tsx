@@ -54,4 +54,12 @@ const BioContainer = styled.section`
 
    }
 
+   @media screen and (min-width: 1500px){
+
+      padding: 10% 0;
+
+      .text{ max-width: 40%; }
+
+   }
+
 `;
