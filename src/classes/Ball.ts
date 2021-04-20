@@ -12,7 +12,7 @@ export class Ball {
 
    private readonly velocity: Vec2D = { x: 0, y: 0 };
    private angle: number = 0;
-   private speed: number = window.innerWidth < 1300 ? 12 : 30;
+   private speed: number = window.innerWidth < 1400 ? 12 : 30;
 
    readonly side: number;
    readonly position: Vec2D;

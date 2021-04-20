@@ -14,7 +14,7 @@ export class Cpu extends Paddle {
       //super construct a paddle
       super(position, width, height);
 
-      this.smoothingFactor = window.innerWidth < 1300 ? this.maxSmoothing : this.minSmoothing;
+      this.smoothingFactor = window.innerWidth < 1400 ? this.maxSmoothing : this.minSmoothing;
 
    }
 

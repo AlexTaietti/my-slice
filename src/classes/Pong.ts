@@ -31,10 +31,10 @@ export class PongGame {
    private readonly audioArray: Array<HTMLAudioElement> = [new Audio(firstSound), new Audio(secondSound), new Audio(thirdSound), new Audio(fourthSound), new Audio(fifthSound)];
    private audio = true;
 
-   private playerStep = window.innerWidth < 1300 ? 10 : 20;
-   private entityWidth = window.innerWidth < 1300 ? 10 : 20;
+   private playerStep = window.innerWidth < 1400 ? 10 : 20;
+   private entityWidth = window.innerWidth < 1400 ? 10 : 20;
    private paddleHeight: number;
-   private paddleMargin = window.innerWidth < 1300 ? 10 : 20;
+   private paddleMargin = window.innerWidth < 1400 ? 10 : 20;
 
    private controlsFlags: { arrowUp: boolean, arrowDown: boolean };
    private unmount?: () => void;
@@ -168,10 +168,10 @@ export class PongGame {
 
    private resetEntities() {
 
-      this.playerStep = window.innerWidth < 1300 ? 10 : 20;
-      this.entityWidth = window.innerWidth < 1300 ? 10 : 20;
+      this.playerStep = window.innerWidth < 1400 ? 10 : 20;
+      this.entityWidth = window.innerWidth < 1400 ? 10 : 20;
       this.paddleHeight = this.canvas.height / 100 * 15;
-      this.paddleMargin = window.innerWidth < 1300 ? 10 : 20;
+      this.paddleMargin = window.innerWidth < 1400 ? 10 : 20;
 
       const newBallPosition = { x: this.courtCenter.x - this.entityWidth / 2, y: this.courtCenter.y - this.entityWidth / 2 };
       const newPlayerPosition = { x: this.paddleMargin, y: this.courtCenter.y - this.paddleHeight / 2 };
