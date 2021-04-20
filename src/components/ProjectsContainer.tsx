@@ -8,8 +8,8 @@ export const ProjectsContainer: React.FC = () => {
    return (
       <ProjectsWrapper>
          <Spoofify />
-         <Pokedex />
          <Taietti />
+         <Pokedex />
       </ProjectsWrapper>
    );
 
