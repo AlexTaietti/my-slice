@@ -22,7 +22,6 @@ export class PongGame {
 
    private frameID = 0;
 
-   private instructions = true;
    private paused = false;
    private courtCenter: Vec2D;
    private courtBounds: Square;
@@ -70,25 +69,28 @@ export class PongGame {
    }
 
    public start() {
+      this.playing = true;
+      this.initialiseHandlers();
+      this.animate();
+   }
+
+   public init() {
 
       this.draw();
 
-      this.drawInstructions();
+      this.context.save();
 
-      const startGame = (event: KeyboardEvent) => {
+      this.context.font = "30px Pacifico";
+      this.context.fillStyle = 'white';
+      this.context.textBaseline = 'middle';
 
-         if (event.key === 'Enter') {
-            this.instructions = false;
-            this.playing = true;
-            this.initialiseHandlers();
-            this.animate();
-         }
+      this.context.textAlign = 'left';
+      this.context.fillText('YOU', this.paddleMargin * 4, this.courtCenter.y);
 
-         window.removeEventListener('keypress', startGame);
+      this.context.textAlign = 'right';
+      this.context.fillText('CPU', this.courtBounds.width - this.paddleMargin * 4, this.courtCenter.y);
 
-      };
-
-      window.addEventListener('keypress', startGame);
+      this.context.restore();
 
    }
 
@@ -252,31 +254,6 @@ export class PongGame {
 
    }
 
-   private drawInstructions() {
-
-      this.context.save();
-
-      this.context.fillStyle = 'white';
-      this.context.font = '60px Pacifico';
-
-      this.context.fillText('YOU', (this.courtCenter.x / 2), this.courtCenter.y);
-      this.context.fillText('CPU', ((this.courtCenter.x / 2) * 3), this.courtCenter.y);
-
-      this.context.font = '20px Oswald';
-
-      this.context.textAlign = 'right';
-      this.context.fillText('Space = pause', this.courtCenter.x - 100, 70);
-
-      this.context.textAlign = 'center';
-      this.context.fillText('Enter = play', this.courtCenter.x, 70);
-
-      this.context.textAlign = 'left';
-      this.context.fillText('m = mute', this.courtCenter.x + 100, 70);
-
-      this.context.restore();
-
-   }
-
    private update() {
 
       if (this.controlsFlags.arrowUp) {
@@ -394,8 +371,6 @@ export class PongGame {
       this.resetEntities();
 
       if (!this.playing) this.draw();
-
-      if (this.instructions) this.drawInstructions();
 
    }
 
