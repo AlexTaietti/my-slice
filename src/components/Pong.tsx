@@ -24,7 +24,7 @@ export const Pong: React.FC = () => {
 
       const observer = new IntersectionObserver((entry) => {
 
-         if (pong.current && !entry[0].isIntersecting) { pong.current.pause(); }
+         if (pong.current && pong.current.playing && !entry[0].isIntersecting) { pong.current.pause(); }
 
       });
 

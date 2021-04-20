@@ -271,7 +271,7 @@ export class PongGame {
 
          this.context.save();
 
-         this.context.fillStyle = 'white';
+         this.context.fillStyle = '#ff006f';
          this.context.font = '80px Oswald';
 
          this.context.fillText('Paused', this.canvas.width / 2, this.canvas.height / 2);

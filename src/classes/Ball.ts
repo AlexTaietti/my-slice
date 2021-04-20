@@ -1,6 +1,7 @@
 import { Vec2D } from "../@types";
 import { Paddle } from "./Paddle";
 import { mapToRange } from '../helpers/utils';
+import { ParticleEmitter } from "./ParticleEmitter";
 
 export class Ball {
 
@@ -9,14 +10,19 @@ export class Ball {
    angle: number = 0;
    speed: number = window.innerWidth / 100;
    side: number;
-   color: string;
+   color = '#ff006f';
+   particles: ParticleEmitter;
    impactCorrection = 0.6;
 
-   constructor(position: Vec2D, side: number, color: string = 'white') {
+   constructor(position: Vec2D, side: number) {
 
       this.position = position;
       this.side = side;
-      this.color = color;
+
+      this.particles = new ParticleEmitter(100, {
+         x: this.position.x + this.side / 2,
+         y: this.position.y + this.side / 2
+      });
 
       this.velocity = {
          x: this.speed * Math.cos(this.angle),
@@ -120,6 +126,13 @@ export class Ball {
       this.position.x += this.velocity.x;
       this.position.y += this.velocity.y;
 
+      this.particles.updatePosition({
+         x: this.position.x + this.side / 2,
+         y: this.position.y + this.side / 2
+      });
+
+      this.particles.update();
+
    }
 
    draw(context: CanvasRenderingContext2D) {
@@ -128,10 +141,11 @@ export class Ball {
 
       context.fillStyle = this.color;
 
-      context.translate(this.position.x, this.position.y);
-      context.fillRect(0, 0, this.side, this.side);
+      context.fillRect(this.position.x, this.position.y, this.side, this.side);
 
       context.restore();
+
+      this.particles.draw(context);
 
    }
 
