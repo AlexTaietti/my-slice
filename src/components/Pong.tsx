@@ -5,16 +5,21 @@ import { PongGame } from '../classes/Pong';
 export const Pong: React.FC = () => {
 
    const [visible, setVisibility] = useState(false);
+
    const [instructionsVisible, setInstructionsVisibility] = useState(true);
+   const [instructionsMount, setInstructionsMount] = useState(true);
 
    //create references and define resize handler function
    const canvasContainer = useRef<HTMLDivElement>(null);
    const pong = useRef<PongGame>();
 
    const startGame = () => {
+      if (pong.current?.playing) return;
       setInstructionsVisibility(false);
       pong.current?.start();
    };
+
+   const unmountInstructions = () => setInstructionsMount(false);
 
    useEffect(() => {
 
@@ -51,11 +56,21 @@ export const Pong: React.FC = () => {
 
    //let's go!
    return (
+
       <GameContainer className={visible ? 'fadeIn' : 'hidden'} ref={canvasContainer}>
-         <Instructions onClick={startGame} className={instructionsVisible ? 'show' : 'hidden'}>
-            <p>Use the <span>arrow keys</span> to move your paddle, <span>m</span> to mute the sound, the <span>spacebar</span> to pause the game and <span>enter</span> to resume. Click me to start!</p>
-         </Instructions>
+
+         {
+
+            instructionsMount &&
+
+            <Instructions onTransitionEnd={unmountInstructions} onClick={startGame} className={instructionsVisible ? 'show' : 'hidden'}>
+               <p>Use the <span>arrow keys</span> to move your paddle, <span>m</span> to mute the sound, the <span>spacebar</span> to pause the game and <span>enter</span> to resume. Click me to start!</p>
+            </Instructions>
+
+         }
+
       </GameContainer>
+
    );
 
 };

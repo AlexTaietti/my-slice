@@ -281,8 +281,46 @@ export class PongGame {
       const pointScored = this.ball.move(this.courtBounds.width, this.courtBounds.height, this.player, this.cpu);
 
       if (this.audio && impact) pickRandom(this.audioArray).play();
-      if (pointScored) this.repositionPaddles();
 
+      if (pointScored) {
+
+         this.repositionPaddles();
+
+         if (this.player.score === 5) { return this.player; }
+
+         if (this.cpu.score === 5) { return this.cpu; }
+
+      }
+
+      return undefined;
+
+   }
+
+   private displayGameResult(winnerMessage: string) {
+
+      this.resetScore();
+
+      this.context.save();
+
+      this.context.fillStyle = '#ff006f';
+      this.context.font = '60px Oswald';
+      this.context.textAlign = 'center';
+      this.context.textBaseline = 'middle';
+
+      this.context.fillText(winnerMessage, this.courtCenter.x, this.courtCenter.y);
+
+      this.context.font = '25px Oswald';
+      this.context.textBaseline = 'top';
+
+      this.context.fillText('Press enter to go again', this.courtCenter.x, this.courtCenter.y + 50);
+
+      this.context.restore();
+
+   }
+
+   private resetScore() {
+      this.player.score = 0;
+      this.cpu.score = 0;
    }
 
    private draw() {
@@ -334,10 +372,25 @@ export class PongGame {
 
    public animate() {
 
-      this.update();
+      const winner = this.update();
+
       this.draw();
 
-      this.frameID = window.requestAnimationFrame(this.animate.bind(this));
+      if (winner) {
+
+         this.displayGameResult(winner.winMessage);
+
+         const restartGame = (event: KeyboardEvent) => {
+
+            if (event.key === 'Enter') { this.animate(); }
+
+            window.removeEventListener('keypress', restartGame);
+
+         };
+
+         window.addEventListener('keypress', restartGame);
+
+      } else { this.frameID = window.requestAnimationFrame(this.animate.bind(this)); }
 
    }
 

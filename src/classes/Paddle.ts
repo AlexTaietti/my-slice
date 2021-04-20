@@ -3,6 +3,7 @@ import { Vec2D } from "../@types";
 export class Paddle {
 
    private readonly color = 'white';
+   public readonly winMessage: string;
 
    public readonly position: Vec2D;
 
@@ -10,11 +11,12 @@ export class Paddle {
    public width: number;
    public score: number = 0;
 
-   constructor(position: Vec2D, width: number, height: number) {
+   constructor(position: Vec2D, width: number, height: number, winMessage: string) {
 
       this.position = position;
       this.width = width;
       this.height = height;
+      this.winMessage = winMessage;
 
    }
 

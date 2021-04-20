@@ -8,7 +8,7 @@ export class Player extends Paddle {
    constructor(position: Vec2D, width: number, height: number) {
 
       //super construct a paddle
-      super(position, width, height);
+      super(position, width, height, 'You Win!');
 
       this.targetPosition = position.y;
 

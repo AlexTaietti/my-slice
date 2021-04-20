@@ -12,7 +12,7 @@ export class Cpu extends Paddle {
    constructor(position: Vec2D, width: number, height: number) {
 
       //super construct a paddle
-      super(position, width, height);
+      super(position, width, height, 'You Lose.');
 
       this.smoothingFactor = window.innerWidth < 1400 ? this.maxSmoothing : this.minSmoothing;
 
