@@ -17,7 +17,7 @@ const Project = styled.section`
    width: 100%;
    height: 800px;
    background: ${(props: { background: string }) => props.background};
-   padding: 10%;
+   padding: 7%;
    align-items: center;
    justify-content: space-evenly;
    overflow: hidden;

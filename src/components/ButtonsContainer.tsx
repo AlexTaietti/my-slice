@@ -18,12 +18,13 @@ export const ButtonsContainer: React.FC<ButtonsContainerProps> = ({ demoLink, sp
 const Container = styled.div`
 
    display: flex;
-   flex-wrap: wrap;
+   flex-wrap: nowrap;
 
    button{
       
       white-space: nowrap;
       border-radius: 5px;
+      font-size: 1.5rem;
 
       a{
          display: inline-flex;
