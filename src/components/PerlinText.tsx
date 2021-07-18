@@ -35,11 +35,8 @@ export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize }) => {
          window.removeEventListener('resize', handleResize);
 
          if (particleText.current) {
-
             particleText.current.unmount();
-
             particleText.current = undefined; //free memory on unmount
-
          }
 
       };

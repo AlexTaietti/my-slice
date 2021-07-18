@@ -16,8 +16,8 @@ export const Header: React.FC<{ mobile: boolean }> = ({ mobile }) => {
 
    return (
       <Hero id='hero'>
-         { !mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} /> : <h1>Hellooo!</h1>}
-         <span onClick={scrollToBio}>Get to know me</span>
+         {!mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} /> : <Ciao>Hellooo!</Ciao>}
+         <ScrollTrigger onClick={scrollToBio}>Get to know me</ScrollTrigger>
       </Hero>
    );
 
@@ -33,9 +33,50 @@ const pulse = keyframes`
 
 `;
 
+const Ciao = styled.h2`
+
+   font-size: 7.5rem;
+   text-align: center;
+   font-family: 'Pacifico', sans-serif;
+   color: rgb(8, 116, 247);
+
+`;
+
+const ScrollTrigger = styled.span`
+
+   font-size: 2.2rem;
+   position: absolute;
+   bottom: 3%;
+   left: 50%;
+   display: inline-block;
+   transform: translateX(-50%);
+   cursor: pointer;
+   color: white;
+   font-family: 'Oswald', sans-serif;
+   text-align: center;
+
+   &::after{
+      animation-name: ${pulse};
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      margin-top: 5px;
+      display: block;
+      content: '👇';
+   }
+
+   &:hover::after{
+      animation: none;
+      content: '🤘';
+   }
+
+`;
+
 const Hero = styled.header`
 
-   display: block;
+   display: flex;
+   justify-content: space-evenly;
+   flex-direction: column;
+   align-items: center;
    width: 100%;
    height: 100%;
    position: relative;
@@ -44,51 +85,6 @@ const Hero = styled.header`
    background: #030303;
    min-height: 600px;
 
-   span{
-
-      font-size: 2.2rem;
-      position: absolute;
-      bottom: 3%;
-      left: 50%;
-      display: inline-block;
-      transform: translateX(-50%);
-      cursor: pointer;
-      color: white;
-      font-family: 'Oswald', sans-serif;
-      text-align: center;
-
-      &::after{
-         animation-name: ${pulse};
-         animation-duration: 2s;
-         animation-iteration-count: infinite;
-         margin-top: 5px;
-         display: block;
-         content: '👇';
-      }
-
-      &:hover::after{
-         animation: none;
-         content: '🤘';
-      }
-
-   }
-
-   @media screen and (max-width: 1024px){
-
-      display: flex;
-      justify-content: space-evenly;
-      flex-direction: column;
-      align-items: center;
-
-      h1{
-
-         font-size: 8rem;
-         text-align: center;
-         font-family: 'Pacifico', sans-serif;
-         color: rgb(8, 116, 247);
-
-      }
-
-   }
+   @media screen and (min-width: 1024px){ display: block; }
 
 `;

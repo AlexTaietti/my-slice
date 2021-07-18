@@ -1,64 +1,64 @@
 import styled from 'styled-components';
 import { Me } from './Me';
+import { Description, Title } from './styled/common';
 
 export const Bio: React.FC = () => {
 
    return (
       <BioContainer id="bio">
-         <div className='text'>
-            <h1>About me</h1>
-            <p>I am a self-taught developer who wants to become a world class software engineer. I’m willing to roll-up my sleeves and do whatever the job requires to gain hands-on experience and learn from an amazing team. Right after high-school I moved to London on my own in search of opportunity and personal development, and have since had the chance to hone my customer service skills in some of the city’s best restaurants while transitioning into the field I am most passionate about: software engineering.</p>
-         </div>
-         <Me />
+         <Content>
+            <TextContainer>
+               <Title>About me</Title>
+               <Description>I am a self-taught developer who wants to become a world class software engineer. I’m willing to roll-up my sleeves and do whatever the job requires to gain hands-on experience and learn from an amazing team. Right after high-school I moved to London on my own in search of opportunity and personal development, and have since had the chance to hone my customer service skills in some of the city’s best restaurants while transitioning into the field I am most passionate about: software engineering.</Description>
+            </TextContainer>
+            <Me />
+         </Content>
       </BioContainer>
    );
 
 };
 
-const BioContainer = styled.section`
+const Content = styled.div`
 
    display: flex;
-   position: relative;
+   flex-direction: column-reverse;
+   justify-content: space-evenly;
+   padding: 10%;
+   padding-top: calc(10% + 20px);
    align-items: center;
-   justify-content: center;
-   width: 100%;
-   padding: 15% 0;
+   max-width: 1400px;
+   margin: 0 auto;
+
+`;
+
+const TextContainer = styled.div`
+
+   max-width: 80%;
+   font-family: 'Oswald', sans-serif;
+   font-weight: lighter;
+
+`;
+
+const BioContainer = styled.section`
+
+   position: relative;
+   display: block;
    background: #a10fe8;
-   z-index: -2;
+   isolation: isolate;
 
-   .text{
+   ${Title}{ color: #FCFCFC; }
 
-      max-width: 45%;
-      font-family: 'Oswald', sans-serif;
-      font-weight: lighter;
+   ${Description}{ color: black; }
 
-      h1{
-         font-size: 4rem;
-         color: white;
-         text-shadow: 1px 1px 1px black;
+   @media screen and (min-width: 1024px){
+
+      ${Content}{
+         min-height: 650px;
+         padding: 5%;
+         flex-direction: row;
       }
 
-      p{
-         font-size: 2rem;
-      }
-
-   }
-
-   @media screen and (max-width: 1024px){
-
-      flex-direction: column-reverse;
-
-      .text{
-         max-width: 75%;
-      }
-
-   }
-
-   @media screen and (min-width: 1500px){
-
-      padding: 10% 0;
-
-      .text{ max-width: 40%; }
+      ${TextContainer}{ max-width: 45%; }
 
    }
 

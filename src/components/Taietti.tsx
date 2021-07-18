@@ -1,32 +1,63 @@
+import styled from 'styled-components';
+import { Description, Title } from './styled/common';
+import { Container, ButtonsContainer, InfoContainer, Content } from './styled/project';
+import { ProjectShowcase, ShowcaseContainer } from './ProjectShowcase';
 import showcase from '../assets/taietti_screens.png';
-import { ProjectContainer } from './ProjectContainer';
-import { Showcase } from './Showcase';
-import { Description } from './ProjectDescription';
+import { DemoLink } from './DemoLink';
 
 export const Taietti: React.FC = () => {
 
    return (
 
-      <ProjectContainer background={'#0f79e8'}>
+      <TaiettiContainer>
 
-         <Description
+         <Content>
 
-            title={{
-               text: "taiettimailbox",
-               color: 'white'
-            }}
+            <TaiettiInfo>
 
-            info={{
-               text: "My family’s business’ website. One of the first and oldest things I have built. This website holds a special place in my heart, it made me realise how software can bring tangible value to anyone, anywhere, especially to the people you love.",
-               color: 'black'
-            }}
+               <Title>taiettimailbox</Title>
+               <Description>My family’s business’ website. One of the first and oldest things I have built. This website holds a special place in my heart, it made me realise how software can bring tangible value to anyone, anywhere, especially to the people you love.</Description>
 
-            demoLink={'https://www.taiettimailbox.it/'} />
+               <ButtonsContainer>
+                  <DemoLink link={'https://www.taiettimailbox.it/'} />
+               </ButtonsContainer>
 
-         <Showcase picture={showcase} />
+            </TaiettiInfo>
 
-      </ProjectContainer>
+            <ProjectShowcase previewImage={showcase} />
+
+         </Content>
+
+      </TaiettiContainer>
 
    );
 
 };
+
+const TaiettiContainer = styled(Container)`
+
+   background-color: #0f79e8;
+   
+   ${ShowcaseContainer}{ width: 95%; }
+
+   @media screen and (min-width: 480px){
+
+      ${ShowcaseContainer}{ width: 80%; }
+
+   }
+
+   @media screen and (min-width: 1024px){
+
+      ${ShowcaseContainer}{ flex: 0 0 50%; }
+
+   }
+
+`;
+
+const TaiettiInfo = styled(InfoContainer)`
+
+   ${Title}{ color: #FCFCFC; }
+
+   ${Description}{ color: black; }
+
+`;

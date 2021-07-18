@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import showcase from '../assets/pokemon_showcase.png';
+import showcase from '../assets/pokemons.png';
 import pikachu from '../assets/surprised_pika.png';
-import { ProjectContainer } from './ProjectContainer';
-import { Showcase } from './Showcase';
-import { PikachuButton } from './PikachuButton';
-import { Description } from './ProjectDescription';
-
+import { Description, Title } from './styled/common';
+import { Container, ButtonsContainer, InfoContainer, Content, Button } from './styled/project';
+import { CodeLink } from './CodeLink';
+import { DemoLink } from './DemoLink';
+import { ProjectShowcase, ShowcaseContainer } from './ProjectShowcase';
 
 export const Pokedex: React.FC = () => {
 
@@ -17,46 +17,94 @@ export const Pokedex: React.FC = () => {
       if (surprised) return;
 
       setSurprised(true);
-
       setTimeout(() => setSurprised(false), 4000);
 
    };
 
    return (
 
-      <ProjectContainer background={'#EE2E2E'}>
+      <PokedexContainer>
 
-         <Description
-            title={{ text: "React meets Pokémon", color: 'white' }}
-            info={{ text: "This little project is entirely powered by React and nostalgia. All the assets I used in this adorable little app have been provided by the awesome people at PokeAPI.co. It allows users to browse through hundreds of pokémons and check some of their details...yes, even their weight.", color: 'black' }}
-            demoLink={'http://pokething.surge.sh/'}
-            codeLink={'https://github.com/AlexTaietti/React-Pokedex'}
-            SpecialButton={PikachuButton}
-            specialButtonClickHandler={surprise} />
+         <Content>
 
-         <Showcase picture={showcase} />
+            <PokedexInfo>
 
-         <SurprisedPikachu className={surprised ? 'surprised' : 'happy'}>
-            <img alt='surprised pika' src={pikachu} />
+               <Title>React meets Pokémon</Title>
+               <Description>This little project is entirely powered by React and nostalgia. All the assets I used in this adorable little app have been provided by the awesome people at PokeAPI.co. It allows users to browse through hundreds of pokémons and check some of their details...yes, even their weight.</Description>
+
+               <ButtonsContainer>
+                  <DemoLink link={'http://pokething.surge.sh/'} />
+                  <CodeLink link={'https://github.com/AlexTaietti/React-Pokedex'} />
+                  <PikachuButton onClick={surprise}>Nah, don't care</PikachuButton>
+               </ButtonsContainer>
+
+            </PokedexInfo>
+
+            <ProjectShowcase previewImage={showcase} />
+
+         </Content>
+
+         <SurprisedPikachu surprised={surprised}>
+            <PICachu alt='surprised pika' src={pikachu} />
          </SurprisedPikachu>
 
-      </ProjectContainer>
+      </PokedexContainer>
 
    );
 
 };
 
-const SurprisedPikachu = styled.div`
+const PokedexContainer = styled(Container)`
+
+   background-color: #FF2525;
+
+   ${ShowcaseContainer}{ max-width: 500px; }
+
+   @media screen and (min-width: 1024px){
+
+      ${ShowcaseContainer}{
+         max-width: unset;
+         flex: 0 0 40%;
+      }
+
+   }
+
+`;
+
+const PICachu = styled.img`
+
+   height: 100%;
+
+`;
+
+const PokedexInfo = styled(InfoContainer)`
+
+   ${Title}{ color: white; }
+
+   ${Description}{ color: black; }
+
+`
+
+const SurprisedPikachu = styled.div<{ surprised: boolean }>`
 
    position: absolute;
    left: 50px;
    top: 100%;
    height: 100px;
    transition: transform .5s;
-   transform: translateY(0);
+   transform: ${({ surprised }) => surprised ? 'translateY(-100%)' : 'translateY(0)'};
 
-   img{ height: 100%; }
+`;
 
-   &.surprised{ transform: translateY(-100%); }
+const PikachuButton = styled(Button)`
+
+   background: #fed530;
+   padding: 10px 15px;
+   transition-property: background;
+   transition-duration: .4s;
+
+   &:hover{ background: #fe9130; }
+
+   @media screen and (max-width: 500px){ display: none; }
 
 `;

@@ -5,7 +5,6 @@ import { PongGame } from '../classes/Pong';
 export const Pong: React.FC = () => {
 
    const [visible, setVisibility] = useState(false);
-
    const [instructionsVisible, setInstructionsVisibility] = useState(true);
    const [instructionsMount, setInstructionsMount] = useState(true);
 
@@ -14,9 +13,12 @@ export const Pong: React.FC = () => {
    const pong = useRef<PongGame>();
 
    const startGame = () => {
+
       if (pong.current?.playing) return;
+
       setInstructionsVisibility(false);
       pong.current?.start();
+
    };
 
    const unmountInstructions = () => setInstructionsMount(false);
@@ -57,17 +59,13 @@ export const Pong: React.FC = () => {
    //let's go!
    return (
 
-      <GameContainer className={visible ? 'fadeIn' : 'hidden'} ref={canvasContainer}>
+      <GameContainer visible={visible} ref={canvasContainer}>
 
-         {
+         {instructionsMount &&
 
-            instructionsMount &&
-
-            <Instructions onTransitionEnd={unmountInstructions} onClick={startGame} className={instructionsVisible ? 'show' : 'hidden'}>
-               <p>Use the <span>arrow keys</span> to move your paddle, <span>m</span> to mute the sound, the <span>spacebar</span> to pause the game and <span>enter</span> to resume. Click me to start!</p>
-            </Instructions>
-
-         }
+            <InstructionsContainer onTransitionEnd={unmountInstructions} onClick={startGame} instructionsVisible={instructionsVisible}>
+               <Instructions>Use the <Highlight>arrow keys</Highlight> to move your paddle, <Highlight>m</Highlight> to mute the sound, the <Highlight>spacebar</Highlight> to pause the game and <Highlight>enter</Highlight> to resume. Click me to start!</Instructions>
+            </InstructionsContainer>}
 
       </GameContainer>
 
@@ -75,50 +73,50 @@ export const Pong: React.FC = () => {
 
 };
 
-const GameContainer = styled.div`
+const GameContainer = styled.div<{ visible: boolean }>`
 
    position: relative;
    display: block;
    width: 100%;
    height: 100%;
    background: #030303;
-   opacity: 0;
-   transform: translateY(-40px);
+   opacity: ${({ visible }) => visible ? 1 : 0};
+   transform:  ${({ visible }) => visible ? 'translateY(0)' : 'translateY(-40px)'};
    transition-duration: .4s;
    transition-property: opacity, transform;
 
-   &.fadeIn{
-      opacity: 1;
-      transform: translateY(0);
-   }
+`;
+
+const Instructions = styled.p`
+
+   font-family: 'Oswald', sans-serif;
+   font-size: 1.8rem;
+   color: white;
+   text-align: center;
+   text-shadow: 1px 1px 1px black;
 
 `;
 
-const Instructions = styled.div`
+const Highlight = styled.span`
+
+   color: #00cfff;
+
+`;
+
+const InstructionsContainer = styled.div<{ instructionsVisible: boolean }>`
 
    max-width: 35%;
    background: #ae0b52;
    position: absolute;
    left: 50%;
    top: 50%;
-   transform: translate(-50%, -50%);
-   font-family: 'Oswald', sans-serif;
-   font-size: 1.8rem;
+   opacity: ${({ instructionsVisible }) => instructionsVisible ? 1 : 0};
+   transform:  ${({ instructionsVisible }) => instructionsVisible ? 'translate(-50%, -50%)' : 'translate(-50%, -70%)'} ;
    padding: 12px 15px 15px;
-   color: white;
    cursor: pointer;
-   text-shadow: 1px 1px 1px black;
    transition-duration: .4s;
    transition-property: opacity, transform;
-   text-align: center;
    border: 2px solid #0087ff;
    border-radius: 5px;
-
-   span{ color: #00cfff; }
-
-   &.hidden{
-      opacity: 0;
-      transform: translate(-50%, -70%);
-   }
 
 `;

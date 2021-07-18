@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Header, ProjectsContainer, Bio, Footer } from './components';
+import { Header, Bio, Footer, Spoofify, Taietti, Crypto, Pokedex } from './components';
 
 export const Slice: React.FC = () => {
 
@@ -23,17 +23,31 @@ export const Slice: React.FC = () => {
    }, [mobile]);
 
    return (
-      <AppWrapper>
+      <MySlice>
          <Header mobile={mobile} />
          <Bio />
-         <ProjectsContainer />
+         <ProjectsWrapper>
+            <Spoofify />
+            <Taietti />
+            <Crypto />
+            <Pokedex />
+         </ProjectsWrapper>
          {!mobile && <Footer />}
-      </AppWrapper>
+      </MySlice>
    );
 
 };
 
-const AppWrapper = styled.div`
+const ProjectsWrapper = styled.section`
+
+   position: relative;
+   display: block;
+   height: auto;
+   width: 100%;
+
+`;
+
+const MySlice = styled.div`
 
    display: block;
    width: 100%;
