@@ -11,6 +11,21 @@ export type ButtonsContainerProps = {
    specialButtonClickHandler?: () => void;
 };
 
+export type DeviceCarouselProps = {
+   images: Array<string>;
+   arrowColor: string;
+   className?: string;
+   deviceType: 'mobile' | 'desktop';
+}
+
+export type DeviceCarouselSizeData = {
+   deviceHeight: string;
+   screenTopMargin: string;
+   screenLeftMargin: string;
+   screenWidthPercentage: string;
+   screenHeightPercentage: string;
+}
+
 export type DescriptionProps = {
    demoLink: string;
    codeLink?: string;
