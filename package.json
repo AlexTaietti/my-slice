@@ -12,9 +12,14 @@
     "dev": "webpack s --disable-host-check --host 0.0.0.0 --config-name dev"
   },
   "dependencies": {
+    "@types/slick-carousel": "^1.6.37",
     "file-loader": "^6.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-slick": "^0.28.1",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.1.0",
+    "slick-carousel": "^1.8.1",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
@@ -23,6 +28,7 @@
     "@babel/preset-react": "^7.13.13",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "@types/react-slick": "^0.23.5",
     "@types/styled-components": "^5.1.9",
     "@types/webfontloader": "^1.6.32",
     "babel-loader": "^8.2.2",
