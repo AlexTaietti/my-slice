@@ -16,7 +16,15 @@ const devConfig = {
    },
 
    module: {
-      rules: [{ test: /\.css$/i, use: ['style-loader', 'css-loader'] }, { test: /\.mp3$/i, loader: 'file-loader' }, { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource' }, { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource' }, { test: /\.(js)x?$/, loader: 'babel-loader', exclude: /node_modules/ }, { test: /\.(ts)x?$/, use: ['babel-loader', 'ts-loader'], exclude: /node_modules/ }],
+      rules: [
+         { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
+         { test: /\.s[ac]ss$/i, use: ['style-loader', 'css-loader', "sass-loader"], },
+         { test: /\.mp3$/i, loader: 'file-loader' },
+         { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource' },
+         { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource' },
+         { test: /\.(js)x?$/, loader: 'babel-loader', exclude: /node_modules/ },
+         { test: /\.(ts)x?$/, use: ['babel-loader', 'ts-loader'], exclude: /node_modules/ }
+      ],
    },
 
    plugins: [
@@ -57,7 +65,15 @@ const prodConfig = {
    },
 
    module: {
-      rules: [{ test: /\.css$/i, use: ['style-loader', 'css-loader'] }, { test: /\.mp3$/i, loader: 'file-loader' }, { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource' }, { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource' }, { test: /\.(js)x?$/, loader: 'babel-loader', exclude: /node_modules/ }, { test: /\.(ts)x?$/, use: ['babel-loader', 'ts-loader'], exclude: /node_modules/ }],
+      rules: [
+         { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
+         { test: /\.s[ac]ss$/i, use: ['style-loader', 'css-loader', "sass-loader"], },
+         { test: /\.mp3$/i, loader: 'file-loader' },
+         { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource' },
+         { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource' },
+         { test: /\.(js)x?$/, loader: 'babel-loader', exclude: /node_modules/ },
+         { test: /\.(ts)x?$/, use: ['babel-loader', 'ts-loader'], exclude: /node_modules/ }
+      ],
    }
 
 };
