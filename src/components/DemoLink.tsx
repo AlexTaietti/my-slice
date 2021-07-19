@@ -4,7 +4,7 @@ import { Button } from './styled/project';
 export const DemoLink: React.FC<{ link: string }> = ({ link }) => {
 
    return (
-      <DemoLinkButton href={link}>
+      <DemoLinkButton target='_blank' href={link}>
          <RocketIcon>🚀</RocketIcon>
          <LinkText>Live site</LinkText>
       </DemoLinkButton>
