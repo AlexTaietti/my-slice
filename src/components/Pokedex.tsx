@@ -30,7 +30,7 @@ export const Pokedex: React.FC = () => {
             <PokedexInfo>
 
                <Title>React meets Pokémon</Title>
-               <Description>This little project is entirely powered by React and nostalgia. All the assets I used in this adorable little app have been provided by the awesome people at PokeAPI.co. It allows users to browse through hundreds of pokémons and check some of their details...yes, even their weight.</Description>
+               <Description>As the quality of the code might suggest this is the first React application I have ever made: the project is entirely powered by nostalgia and the assets provided by the awesome people at PokeAPI.co. This app allows its users to browse through hundreds of pokémons and check some of their details...yes, even their weight.</Description>
 
                <ButtonsContainer>
                   <DemoLink link={'http://pokething.surge.sh/'} />

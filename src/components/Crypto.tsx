@@ -20,7 +20,7 @@ export const Crypto: React.FC = () => {
             <CryptoInfo>
 
                <Title>Crypto tracker</Title>
-               <Description>Like most of my other projects, this mobile app is built with React, styled-components and Typescript. It enables its users to watch in awe as Dodgecoin soars to the moon...any day now 💎🙌</Description>
+               <Description>Like most of my other projects, this mobile app is built with React, styled-components and Typescript. Thanks to it you'll be able to watch in awe as Dodgecoin soars to the moon...any day now 💎🙌</Description>
 
                <ButtonsContainer>
                   <DemoLink link={'https://sprintt-crypto-tracker.netlify.app'} />
