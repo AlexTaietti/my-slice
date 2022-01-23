@@ -46,7 +46,7 @@ export class PongGame {
 
       this.container = container;
 
-      [this.canvas, this.context] = createFittingCanvas(container, window.devicePixelRatio);
+      [this.canvas, this.context] = createFittingCanvas(container);
 
       this.paddleHeight = this.canvas.height / 100 * 15;
 
