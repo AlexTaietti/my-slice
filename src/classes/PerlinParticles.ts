@@ -12,6 +12,7 @@ const NOW = Date.now;
 export class PerlinParticles {
 
    private readonly bounds: Square; //will have to be calculated on initialisation
+   private readonly pixelRatio: number;
 
    //build a home for our particles <3
    private readonly particleFields = 6; // number of properties used to identify each particle, 4 regarding it's location and speed and two regarding any target it might be moving towards
@@ -41,23 +42,25 @@ export class PerlinParticles {
    private RAINBOW = false;
    private mousePosition: Vec2D = { x: -1, y: -1 }
 
-   constructor(worldWidth: number, worldHeight: number, rainbowMode?: boolean) {
+   constructor(worldWidth: number, worldHeight: number, pixelRatio: number, rainbowMode?: boolean) {
 
       this.bounds = {
          width: worldWidth,
          height: worldHeight
       };
 
+      this.pixelRatio = pixelRatio;
+
       for (let i = 0; i < this.particleArrayTotalSize; i += this.particleFields) {
-         this.particles[i] = random() * this.bounds.width;
-         this.particles[i + 1] = random() * this.bounds.height;
+         this.particles[i] = random() * worldWidth;
+         this.particles[i + 1] = random() * worldHeight;
          this.particles[i + 2] = 0;
          this.particles[i + 3] = 0;
          this.particles[i + 4] = -1;
          this.particles[i + 5] = -1;
       }
 
-      if (rainbowMode) this.RAINBOW = rainbowMode;
+      if (rainbowMode) this.RAINBOW = true;
 
    }
 
@@ -106,21 +109,27 @@ export class PerlinParticles {
 
    public areInFormation() { return this.inFormation; }
 
+   private generateNoiseComponents(particleIndex: number): [number, number] {
+      const noiseX = this.perlin(this.particles[particleIndex] / this.gridShrinkFactor, this.particles[particleIndex + 1] / this.gridShrinkFactor, -NOW() / this.zComponentShrink);
+      const noiseY = this.perlin(this.particles[particleIndex] / this.gridShrinkFactor, this.particles[particleIndex + 1] / this.gridShrinkFactor, NOW() / this.zComponentShrink);
+      return [noiseX, noiseY];
+   }
+
    public animateParticles(context: CanvasRenderingContext2D) {
 
-      const mouseX = this.mousePosition.x;
-      const mouseY = this.mousePosition.y;
+      const mouseX = this.mousePosition.x * this.pixelRatio;
+      const mouseY = this.mousePosition.y * this.pixelRatio;
+      
+      const worldWidth = this.bounds.width;
+      const worldHeight = this.bounds.height;
 
       //draw background
       context.fillStyle = `hsl(0, 0.0%, 1%)`;
-      context.fillRect(0, 0, this.bounds.width, this.bounds.height);
-
-      context.fillStyle = this.RAINBOW ? `hsl(${this.hue += .4}, 100%, 50%)` : `hsl(213, 94%, 50%)`;
+      context.fillRect(0, 0, worldWidth, worldHeight);
 
       for (let i = 0, noiseX, noiseY; i < this.particleArrayTotalSize; i += this.particleFields) {
 
-         noiseX = this.perlin(this.particles[i] / this.gridShrinkFactor, this.particles[i + 1] / this.gridShrinkFactor, -NOW() / this.zComponentShrink);
-         noiseY = this.perlin(this.particles[i] / this.gridShrinkFactor, this.particles[i + 1] / this.gridShrinkFactor, NOW() / this.zComponentShrink);
+         [noiseX, noiseY] = this.generateNoiseComponents(i);
 
          //approach coordinates of target pixel if one has been assigned to this specific particle
          if (this.particles[i + 4] > 0 && this.particles[i + 5] > 0) {
@@ -146,20 +155,21 @@ export class PerlinParticles {
 
          //wrap particles around edges only if they have not been assigned a target pixel
          if (this.particles[i + 4] < 0 && this.particles[i + 5] < 0 && (mouseX < 0 && mouseY < 0)) {
-            if (this.x > this.bounds.width) {
+            if (this.x > worldWidth) {
                this.particles[i] = 0;
             } else if (this.x < 0) {
-               this.particles[i] = this.bounds.width;
+               this.particles[i] = worldWidth;
             }
 
-            if (this.y > this.bounds.height) {
+            if (this.y > worldHeight) {
                this.particles[i + 1] = 0;
             } else if (this.y < 0) {
-               this.particles[i + 1] = this.bounds.height;
+               this.particles[i + 1] = worldHeight;
             }
          }
 
          //draw particles
+         context.fillStyle = this.RAINBOW ? `hsl(${this.hue += .4}, 100%, 50%)` : `hsl(213, 100%, 50%)`;
          context.fillRect(this.x, this.y, 1, 1);
 
       }

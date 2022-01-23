@@ -4,14 +4,15 @@ import webfontloader from 'webfontloader';
 
 export class PerlinText {
 
-   private readonly container: HTMLDivElement;
+   private readonly container: HTMLElement;
    private readonly PerlinParticles: PerlinParticles;
    private readonly canvas: HTMLCanvasElement;
    private readonly context: CanvasRenderingContext2D;
    private readonly text: string;
    private readonly fontSize: number;
    private readonly referenceCanvas: HTMLCanvasElement;
-   private readonly defaultFont: string = 'sans-serif';
+   private readonly defaultFont: string = 'monospace';
+   private readonly pixelRatio: number = window.devicePixelRatio;
 
    private frameID: number = 0;
    private imageData: ImageData | undefined;
@@ -20,7 +21,7 @@ export class PerlinText {
    public idle: boolean = false;
    public unmount: () => void;
 
-   constructor(container: HTMLDivElement | null, text: string, fontSize: number, fontFamily: string) {
+   constructor(container: HTMLElement | null, text: string, fontSize: number, fontFamily: string) {
 
       if (!container) throw new Error('PerlinText: Cannot initialise without a valid container');
 
@@ -28,21 +29,15 @@ export class PerlinText {
       this.fontSize = fontSize;
       this.fontFamily = fontFamily;
       this.container = container;
-      [this.canvas, this.context] = createFittingCanvas(container);
+      [this.canvas, this.context] = createFittingCanvas(container, this.pixelRatio);
       this.referenceCanvas = cloneCanvas(this.canvas);
       this.imageData = undefined;
-      this.PerlinParticles = new PerlinParticles(this.context.canvas.width, this.context.canvas.height);
+      this.PerlinParticles = new PerlinParticles(this.context.canvas.width, this.context.canvas.height, this.pixelRatio);
 
       webfontloader.load({
-
-         google: {
-            families: [fontFamily]
-         },
-
-         fontactive: (loadedFont) => this.initialiseParticleText(loadedFont),
-
-         inactive: () => this.initialiseParticleText(this.defaultFont)
-
+        google: {families: [fontFamily]},
+        fontactive: (loadedFont) => this.initialiseParticleText(loadedFont),
+        inactive: () => this.initialiseParticleText(this.defaultFont)
       });
 
       const updateMousePosition = (event: MouseEvent) => {
@@ -93,10 +88,8 @@ export class PerlinText {
 
    public resize() {
 
-      const pixelRatio = window.devicePixelRatio;
-
-      const newWidth = pixelRatio * this.container.clientWidth;
-      const newHeight = pixelRatio * this.container.clientHeight;
+      const newWidth = this.pixelRatio * this.container.clientWidth;
+      const newHeight = this.pixelRatio * this.container.clientHeight;
 
       if (newWidth === this.context.canvas.width && newHeight === this.context.canvas.height) return;
 
