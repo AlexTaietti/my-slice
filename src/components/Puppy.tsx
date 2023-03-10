@@ -15,8 +15,8 @@ export const Puppy: React.FC = () => {
 
             <PuppyInfo>
 
-               <Title>Puppy</Title>
-               <Description>This is a web crawler I built using the amazing puppeteer.js library, Typescript and whole lot of Promises. A very educational project that has taught me plenty of unexpected lessons about the Web.</Description>
+               <Title>pup.py</Title>
+               <Description>This good boy is my latest invention and my pride: using nothing more than some basic text processing and cosine similarity it can find a patch between any two articles across the english section of wikipedia.</Description>
 
                <ButtonsContainer>
                   <CodeLink link={'https://github.com/AlexTaietti/puppy'} />
