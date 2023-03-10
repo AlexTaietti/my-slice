@@ -40,7 +40,7 @@ export const Codepen: React.FC = () => {
 
 const CodepenContainer = styled(Container)`
 
-   background-color: rgb(79, 30, 124);
+   background-color: rgb(132 41 217);
 
    ${Carousel}{ width: 80%; }
 
