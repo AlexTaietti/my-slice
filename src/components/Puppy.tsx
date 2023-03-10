@@ -16,7 +16,7 @@ export const Puppy: React.FC = () => {
             <PuppyInfo>
 
                <Title>pup.py</Title>
-               <Description>This good boy is my latest invention and my pride: using nothing more than some basic text processing and cosine similarity it can find a patch between any two articles across the english section of wikipedia.</Description>
+               <Description>This good boy is my latest invention and my pride: using nothing more than some basic text processing and cosine similarity it can find a path connecting any two articles across the english section of wikipedia.</Description>
 
                <ButtonsContainer>
                   <CodeLink link={'https://github.com/AlexTaietti/puppy'} />
