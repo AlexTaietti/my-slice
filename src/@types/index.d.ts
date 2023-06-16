@@ -1,8 +1,3 @@
-export type PerlinTextProps = {
-   fontSize: number;
-   text: string;
-};
-
 export type ButtonsContainerProps = {
    demoLink: string;
    codeLink?: string;
