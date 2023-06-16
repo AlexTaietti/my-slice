@@ -9,11 +9,8 @@ export const Slice: React.FC = () => {
    useEffect(() => {
 
       const resizeHandler = () => {
-
          if (window.innerWidth < 1024 && !mobile) setMobile(true);
-
          if (window.innerWidth >= 1024 && mobile) setMobile(false);
-
       };
 
       window.addEventListener('resize', resizeHandler);
@@ -24,7 +21,7 @@ export const Slice: React.FC = () => {
 
    return (
       <MySlice>
-         <Header mobile={mobile} />
+         <Header />
          <Bio />
          <ProjectsWrapper>
             <TronchetLabs />
