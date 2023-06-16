@@ -1,27 +1,26 @@
 import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { PerlinTextProps } from '../@types';
-import { PerlinText } from '../classes/PerlinText';
+import { SeekerParticles } from '../classes/SeekerParticles';
 
-export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize }) => {
+export const Particles: React.FC = () => {
 
    const canvasContainer = useRef<HTMLDivElement>(null);
-   const particleText = useRef<PerlinText>();
+   const seekerParticles = useRef<SeekerParticles>();
 
-   const handleResize = () => particleText.current?.resize();
+   const handleResize = () => seekerParticles.current?.resize();
 
    useEffect(() => {
 
-      particleText.current = new PerlinText(canvasContainer.current, text, fontSize, 'Pacifico');
+      seekerParticles.current = new SeekerParticles(canvasContainer.current);
 
-      particleText.current.animate();
+      seekerParticles.current.animate();
 
       //intersection obserever to switch off animation when header is out of the viewport
       const observer = new IntersectionObserver((entry) => {
 
-         if (particleText.current) {
-            if (entry[0].isIntersecting && particleText.current.idle) { particleText.current.resume(); }
-            if (!entry[0].isIntersecting) { particleText.current.stop(); }
+         if (seekerParticles.current) {
+            if (entry[0].isIntersecting && seekerParticles.current.idle) { seekerParticles.current.resume(); }
+            if (!entry[0].isIntersecting) { seekerParticles.current.stop(); }
          }
 
       });
@@ -34,9 +33,9 @@ export const ParticleText: React.FC<PerlinTextProps> = ({ text, fontSize }) => {
 
          window.removeEventListener('resize', handleResize);
 
-         if (particleText.current) {
-            particleText.current.unmount();
-            particleText.current = undefined; //free memory on unmount
+         if (seekerParticles.current) {
+            seekerParticles.current.unmount();
+            seekerParticles.current = undefined; //free memory on unmount
          }
 
       };

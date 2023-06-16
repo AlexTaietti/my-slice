@@ -19,25 +19,20 @@ export class PerlinParticles {
    private readonly particlesNumber = 10000;
    private readonly particleArrayTotalSize = this.particlesNumber * this.particleFields;
    private readonly particles = new Float32Array(this.particleArrayTotalSize); //takes particle array total size on initialisation
-   private readonly randomness = 0.854; //randomness threshold used to pick a particle
 
    //all of these props determine the final feel of the swarm
    private readonly speedMultiplier = 0.953;
    private readonly gridShrinkFactor = 190;
    private readonly zComponentShrink = 4000;
-   private readonly formationHampering = 0.0095;
-   private readonly shapeSharpness = 19.8;
-   private readonly formationNoiseIntensity = 0.6;
    private readonly noiseIntensity = 0.8;
-   private readonly seekerNoiseIntensity = 0.83;
-   private readonly seekerHampering = 0.0005;
+   private readonly seekerNoiseIntensity = 0.9;
+   private readonly seekerHampering = 0.0004;
    private readonly perlin = Perlin3D;
 
    //these two props are temporary coordinate holders for every particle's update cycle (all particles are sharing them), used to avoid allocating memory needlessly on every individual particle's update cycle...particle, particle...particle, particle, particle...you get the gist
    private x = -1;
    private y = -1;
 
-   private inFormation = false;
    private hue = Math.random() * (Math.PI * 2);
    private RAINBOW = false;
    private mousePosition: Vec2D = { x: -1, y: -1 }
@@ -74,41 +69,6 @@ export class PerlinParticles {
       this.bounds.height = worldHeight;
    }
 
-
-   public initFormation(imageData: ImageData | undefined) {
-
-      if (!imageData) {
-         console.warn('Particle text could not get into formation because of undefined image data');
-         return;
-      }
-
-      const data = imageData.data;
-
-      for (let i = -1, particleArrayPointer = ~~(random() * this.particlesNumber), pixelIndex = undefined; i < data.length; i += 4) {
-         if (data[i] > 0 && Math.random() > this.randomness) {
-            pixelIndex = (i - 3) / 4;
-            this.particles[this.particleFields * (particleArrayPointer % this.particlesNumber) + 4] = pixelIndex % imageData.width;
-            this.particles[this.particleFields * ((particleArrayPointer++) % this.particlesNumber) + 5] = pixelIndex / imageData.width;
-         }
-      }
-
-      this.inFormation = true;
-
-   }
-
-   public endFormation() {
-
-      for (let i = 0; i < this.particleArrayTotalSize; i += this.particleFields) {
-         this.particles[i + 4] = -1;
-         this.particles[i + 5] = -1;
-      }
-
-      this.inFormation = false;
-
-   }
-
-   public areInFormation() { return this.inFormation; }
-
    private generateNoiseComponents(particleIndex: number): [number, number] {
       const noiseX = this.perlin(this.particles[particleIndex] / this.gridShrinkFactor, this.particles[particleIndex + 1] / this.gridShrinkFactor, -NOW() / this.zComponentShrink);
       const noiseY = this.perlin(this.particles[particleIndex] / this.gridShrinkFactor, this.particles[particleIndex + 1] / this.gridShrinkFactor, NOW() / this.zComponentShrink);
@@ -119,7 +79,7 @@ export class PerlinParticles {
 
       const mouseX = this.mousePosition.x * this.pixelRatio;
       const mouseY = this.mousePosition.y * this.pixelRatio;
-      
+
       const worldWidth = this.bounds.width;
       const worldHeight = this.bounds.height;
 
@@ -131,13 +91,7 @@ export class PerlinParticles {
 
          [noiseX, noiseY] = this.generateNoiseComponents(i);
 
-         //approach coordinates of target pixel if one has been assigned to this specific particle
-         if (this.particles[i + 4] > 0 && this.particles[i + 5] > 0) {
-
-            this.particles[i + 2] += ((this.particles[i + 4] - this.particles[i]) * this.formationHampering) + ((random() / this.shapeSharpness) * COS(random() * (PI2)) + noiseX * this.formationNoiseIntensity);
-            this.particles[i + 3] += ((this.particles[i + 5] - this.particles[i + 1]) * this.formationHampering) + ((random() / this.shapeSharpness) * SIN(random() * (PI2)) + noiseY * this.formationNoiseIntensity);
-
-         } else if (mouseX >= 0 && mouseY >= 0) {
+         if (mouseX >= 0 && mouseY >= 0) {
 
             this.particles[i + 2] += ((mouseX - this.particles[i]) * this.seekerHampering) + ((random() / 4) * COS(random() * (PI2)) + noiseX * this.seekerNoiseIntensity);
             this.particles[i + 3] += ((mouseY - this.particles[i + 1]) * this.seekerHampering) + ((random() / 4) * SIN(random() * (PI2)) + noiseY * this.seekerNoiseIntensity);
@@ -153,19 +107,17 @@ export class PerlinParticles {
          this.x = this.particles[i] += (this.particles[i + 2] *= this.speedMultiplier);
          this.y = this.particles[i + 1] += (this.particles[i + 3] *= this.speedMultiplier);
 
-         //wrap particles around edges only if they have not been assigned a target pixel
-         if (this.particles[i + 4] < 0 && this.particles[i + 5] < 0 && (mouseX < 0 && mouseY < 0)) {
-            if (this.x > worldWidth) {
-               this.particles[i] = 0;
-            } else if (this.x < 0) {
-               this.particles[i] = worldWidth;
-            }
+         //wrap particles around edges
+         if (this.x > worldWidth) {
+            this.particles[i] = 0;
+         } else if (this.x < 0) {
+            this.particles[i] = worldWidth;
+         }
 
-            if (this.y > worldHeight) {
-               this.particles[i + 1] = 0;
-            } else if (this.y < 0) {
-               this.particles[i + 1] = worldHeight;
-            }
+         if (this.y > worldHeight) {
+            this.particles[i + 1] = 0;
+         } else if (this.y < 0) {
+            this.particles[i + 1] = worldHeight;
          }
 
          //draw particles

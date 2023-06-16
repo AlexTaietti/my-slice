@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
-import { ParticleText } from './PerlinText';
+import { Particles } from './Particles';
 
-export const Header: React.FC<{ mobile: boolean }> = ({ mobile }) => {
+export const Header: React.FC = () => {
 
    const scrollToBio = () => {
 
