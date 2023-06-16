@@ -16,7 +16,12 @@ export const Header: React.FC<{ mobile: boolean }> = ({ mobile }) => {
 
    return (
       <Hero id='hero'>
-         {!mobile ? <ParticleText text={"Hellooooo!"} fontSize={180} /> : <Ciao>Hellooo!</Ciao>}
+         <Particles />
+         <div className="greeting">
+            <div className="inner">
+               <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span><span>!</span><span>👋</span>
+            </div>
+         </div>
          <ScrollTrigger onClick={scrollToBio}>Get to know me</ScrollTrigger>
       </Hero>
    );
@@ -33,23 +38,12 @@ const pulse = keyframes`
 
 `;
 
-const Ciao = styled.h2`
-
-   font-size: 7.5rem;
-   text-align: center;
-   font-family: 'Pacifico', sans-serif;
-   color: rgb(8, 116, 247);
-
-`;
-
 const ScrollTrigger = styled.span`
 
    font-size: 2.2rem;
    position: absolute;
    bottom: 3%;
-   left: 50%;
    display: inline-block;
-   transform: translateX(-50%);
    cursor: pointer;
    color: white;
    font-family: 'Oswald', sans-serif;
@@ -74,7 +68,7 @@ const ScrollTrigger = styled.span`
 const Hero = styled.header`
 
    display: flex;
-   justify-content: space-evenly;
+   justify-content: center;
    flex-direction: column;
    align-items: center;
    width: 100%;
@@ -85,6 +79,66 @@ const Hero = styled.header`
    background: #030303;
    min-height: 600px;
 
-   @media screen and (min-width: 1024px){ display: block; }
+   .greeting {
+
+      font-family: Oswald, serif;
+      font-size: 8rem;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      letter-spacing: -5px;
+
+      .inner {
+
+         white-space: nowrap;
+         perspective: 275px;
+      
+         span {
+            transition: all .5s;
+            display: inline-block;
+            transform: rotateY(0deg);
+         }
+      
+         &:hover {
+      
+            @for $i from 1 through 9 {
+               $delay: 0.03s * $i;
+               span:nth-of-type( #{$i}) {
+                  transition-delay: $delay;
+               }
+            }
+      
+            span {
+               transform: rotateY(360deg);
+            }
+      
+         }
+      
+         @for $i from 1 through 9 {
+      
+            $target: #{10-$i};
+            $delay: 0.03s * $i;
+      
+            span:nth-of-type( #{$target}) {
+               transition-delay: $delay;
+            }
+      
+         }
+      
+      }
+
+   }
+
+   @media only screen and (min-width: 650px) {
+      .greeting{ font-size: 11rem; }
+   }
+
+   @media only screen and (min-width: 1200px) {
+      .greeting{ font-size: 15rem; }
+   }
+
 
 `;
