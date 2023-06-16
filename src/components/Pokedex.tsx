@@ -56,7 +56,7 @@ export const Pokedex: React.FC = () => {
 
 const PokedexContainer = styled(Container)`
 
-   background-color: #FF2525;
+   background-color: #bf2121;
 
    ${ShowcaseContainer}{ max-width: 500px; }
 

@@ -36,7 +36,7 @@ export const TronchetLabs: React.FC = () => {
 
 const TronchetLabsContainer = styled(Container)`
 
-   background-color: #70e902;
+   background-color: #68cb0e;
 
    ${ShowcaseContainer}{ max-width: 350px; }
 
