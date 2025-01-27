@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Header, Bio, Footer, Codepen, Taietti, Puppy, Pokedex, TronchetLabs } from './components';
+import { Allergenie } from './components/Allergenie';
 
 export const Slice: React.FC = () => {
 
@@ -24,6 +25,7 @@ export const Slice: React.FC = () => {
          <Header />
          <Bio />
          <ProjectsWrapper>
+            <Allergenie />
             <TronchetLabs />
             <Puppy />
             <Taietti />
