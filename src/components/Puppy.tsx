@@ -16,7 +16,7 @@ export const Puppy: React.FC = () => {
             <PuppyInfo>
 
                <Title>pup.py</Title>
-               <Description>This good boy is my latest invention and my pride: using nothing more than some basic text processing and cosine similarity it can find a path connecting any two articles across the english section of wikipedia.</Description>
+               <Description>A Wikipedia pathway finder that leverages natural language processing and cosine similarity algorithms to discover connections between any two English Wikipedia articles. By implementing fundamental text processing techniques, the application maps meaningful paths through Wikipedia's vast knowledge network.</Description>
 
                <ButtonsContainer>
                   <CodeLink link={'https://github.com/AlexTaietti/puppy'} />
@@ -36,7 +36,7 @@ export const Puppy: React.FC = () => {
 
 const PuppyContainer = styled(Container)`
 
-   background-color: #FFBE25;
+   background-color:rgb(236, 199, 113);
 
    ${ShowcaseContainer}{ max-width: 350px; }
 

@@ -9,7 +9,7 @@ export const Bio: React.FC = () => {
          <Content>
             <TextContainer>
                <Title>About me</Title>
-               <Description>I am a self-taught developer who wants to become a world class software engineer. I’m willing to roll-up my sleeves and do whatever the job requires to gain hands-on experience and learn from an amazing team. Right after high-school I moved to London on my own in search of opportunity and personal development, and have since had the chance to hone my customer service skills in some of the city’s best restaurants while transitioning into the field I am most passionate about: software engineering.</Description>
+               <Description>A self-taught software engineer with a focus on web development, combining growing technical expertise with strong interpersonal skills from London's hospitality sector. After relocating to London, I transitioned into software engineering, driven by a passion for problem-solving and continuous learning. I'm eager to contribute to meaningful projects while developing my engineering capabilities as part of a collaborative team.</Description>
             </TextContainer>
             <Me />
          </Content>
@@ -43,7 +43,7 @@ const BioContainer = styled.section`
 
    position: relative;
    display: block;
-   background: #a10fe8;
+   background: rgb(132, 71, 162);
    isolation: isolate;
 
    ${Title}{ color: #FCFCFC; }

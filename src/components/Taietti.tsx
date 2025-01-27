@@ -36,7 +36,7 @@ export const Taietti: React.FC = () => {
 
 const TaiettiContainer = styled(Container)`
 
-   background-color: #0f79e8;
+   background-color: rgb(82, 140, 200);
    
    ${ShowcaseContainer}{ width: 95%; }
 

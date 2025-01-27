@@ -30,7 +30,7 @@ export const Pokedex: React.FC = () => {
             <PokedexInfo>
 
                <Title>React meets Pokémon</Title>
-               <Description>As the quality of the code might suggest this is the first React application I have ever made: the project is entirely powered by nostalgia and the assets provided by the awesome people at PokeAPI.co. This app allows its users to browse through hundreds of pokémons and check some of their details...yes, even their weight.</Description>
+               <Description>A React-based Pokémon explorer leveraging the comprehensive PokeAPI.co database. This application enables users to browse and examine detailed statistics for hundreds of Pokémon species. The project served as a hands-on introduction to component-based architecture and API integration.</Description>
 
                <ButtonsContainer>
                   <DemoLink link={'http://pokething.surge.sh/'} />
@@ -56,7 +56,7 @@ export const Pokedex: React.FC = () => {
 
 const PokedexContainer = styled(Container)`
 
-   background-color: #bf2121;
+   background-color: rgb(208, 76, 76);
 
    ${ShowcaseContainer}{ max-width: 500px; }
 

@@ -20,7 +20,7 @@ export const Codepen: React.FC = () => {
             <CodepenInfo>
 
                <Title>Codepen</Title>
-               <Description>Codepen is a glorious playground for front-end developers and coding enthusiasts alike. Here you'll find some of my more random and eye-catching creations, including a beautiful analog-binary clock (yep you read that right), simple physics simulations and creative css experiments.</Description>
+               <Description>My Codepen portfolio showcases interactive frontend experiments, from an intuitive analog-binary clock to physics simulations and CSS explorations. These projects demonstrate creative problem-solving while experimenting with modern web technologies.</Description>
 
                <ButtonsContainer>
                   <DemoLink link={'https://codepen.io/AlexTaietti'} />
@@ -40,7 +40,7 @@ export const Codepen: React.FC = () => {
 
 const CodepenContainer = styled(Container)`
 
-   background-color: rgb(132 41 217);
+   background-color: rgb(132, 85, 176);
 
    ${Carousel}{ width: 80%; }
 

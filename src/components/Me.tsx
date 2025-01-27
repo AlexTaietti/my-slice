@@ -20,7 +20,7 @@ const Letter = styled.span`
    position: absolute;
    top: 50%;
    left: 50%;
-   transition: transform 1s;
+   transition: transform .5s;
    font-size: 3.5rem;
    font-family: 'Oswald', sans-serif;
    color: white;

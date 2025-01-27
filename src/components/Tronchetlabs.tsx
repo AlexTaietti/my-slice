@@ -16,7 +16,7 @@ export const TronchetLabs: React.FC = () => {
                 <TronchetLabsInfo>
 
                     <Title>tronchetlabs.io</Title>
-                    <Description>My lab, a website that I have developed completely from scratch to house my weekly cybersecurity writeups. Every layer of this app is hand made and maintained by me, looking after my very own vps is teaching me plenty about system administration as well as best practices employed in production environments.</Description>
+                    <Description>A custom-built platform hosting my weekly cybersecurity analysis and writeups. I developed this website from the ground up, managing every aspect from frontend to backend. Maintaining my own VPS has provided valuable hands-on experience with system administration and production environment best practices.</Description>
 
                     <ButtonsContainer>
                         <DemoLink link={'http://tronchetlabs.io'} />
@@ -36,7 +36,7 @@ export const TronchetLabs: React.FC = () => {
 
 const TronchetLabsContainer = styled(Container)`
 
-   background-color: #68cb0e;
+   background-color: rgb(121, 172, 74);
 
    ${ShowcaseContainer}{ max-width: 350px; }
 
